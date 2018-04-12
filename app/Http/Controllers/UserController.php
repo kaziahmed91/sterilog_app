@@ -22,7 +22,11 @@ class UserController extends Controller
     public function getAllUsers() 
     {
         $users = UserModel::where('company_id', $company_id)->whereNull('date_deleted');
+    }
 
-        dd($users);
+
+    public function addNewUser(Request $request)
+    {
+        $data = $request->all();
     }
 }

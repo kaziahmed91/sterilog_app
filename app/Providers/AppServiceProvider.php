@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // App::bind()
+        // App::singleton('\Services\FpdfLabelService', function () {
+        //     return new \Services\FpdfLabelService()
+        // })
     }
 }

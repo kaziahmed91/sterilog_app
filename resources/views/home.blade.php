@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@include("includes.navbar")
 @section('content')
+    @include("includes.navbar")
 <div class="container">
     <div class="row mt-5">
         <div class="col-md-8 offset-md-2">
@@ -16,8 +16,8 @@
         
                     <br>
                     <div class="container">
-                        <a class="btn btn-primary" href="{{ route('sterile') }}">Sterilizer Load</a>
-                        <a class="btn btn-primary" href="{{ route('spore') }}">Spore Test</a>
+                        <a class="btn btn-primary col-md-3" href="{{ route('sterile') }}">Sterilizer Load</a>
+                        <a class="btn btn-primary col-md-3" href="{{ route('spore') }}">Spore Test</a>
                     </div>
                 </div>
             </div>

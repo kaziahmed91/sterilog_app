@@ -15,7 +15,7 @@ class CompaniesController extends Controller
 
 
     public function viewSettings() {
-        $users = UserClass::where('company_id')
+        // $users = UserClass::where('company_id')
     }
     
     public function register() {

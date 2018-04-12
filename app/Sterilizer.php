@@ -27,4 +27,6 @@ class Sterilizer extends Model
     public function user() {
         return $this->hasMany('User::class', 'added_by', 'user_id');
     }
+
+    
 }

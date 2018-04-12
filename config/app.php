@@ -169,6 +169,8 @@ return [
          * Package Service Providers...
          */
         Barryvdh\Debugbar\ServiceProvider::class,
+        Codedge\Fpdf\FpdfServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -227,6 +229,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Fpdf' => Codedge\Fpdf\Facades\Fpdf::class
+
 
     ],
 

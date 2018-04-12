@@ -1,6 +1,10 @@
 $(document).ready(function() {
 
-    
+    $('.settingsNav').children().hover(function(){
+        if (!$(this).hasClass('currentPage'))
+            $(this).toggleClass('active');
+    });
+
     $('.createUserBtn').click( function(e) {
         e.preventDefault();
         $(this).find('.btn').toggleClass('active'); 

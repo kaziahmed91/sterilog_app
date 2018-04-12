@@ -16,33 +16,70 @@ Route::get('/', function () {
     // view('auth.login');
 });
 
-// Auth::routes();
+// Auth::routes() -> ;
 
-Route::get('/home', 'HomeController@index')->name('home');
+        $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+        $this->post('login', 'Auth\LoginController@login');
+        $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
+        // Registration Routes...
+        $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+        $this->post('register', 'Auth\RegisterController@register');
 
-Auth::routes();
+        // Password Reset Routes...
+        $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+        $this->post('password/reset', 'Auth\ResetPasswordController@reset');
+
 
 Route::group(['prefix' => '', 'middleware' =>'auth' ], function () {
 
     Route::get('/sterilize', 'SterilizeController@index')->name('sterile');
     Route::get('/sterilize/log', 'SterilizeController@viewLog')->name('sterilizeLog');
+    
+    // Route::post('/sterilize', 'SterilizeController@sterilize');
     Route::post('/sterilize', 'SterilizeController@sterilize');
+    Route::post('/sterilize/filter', 'SterilizeController@filter');
+    Route::get('/sterilize/filter', 'SterilizeController@filter');
+    Route::get('/privateKey', 'SterilizeController@getPrivateKey');
+    Route::post('/deletePdf', 'SterilizeController@deletePdf');
+    
+
+    Route::post('/cycleChanges', 'SterilizeController@logChanges');
+    
+    Route::post('/signSignature', 'SterilizeController@signSignature');
 
 
     Route::get('/spore', 'SporeTestController@index')->name('spore');
-    Route::get('/spore/log', 'SporeTestController@log')->name('sporeLog');
+    Route::get('/spore/log', 'SporeTestController@log')->name('spore.logs');
+    // Route::get('/spore/new', 'SporeTestController@createSporeTest')->name('spore.new');
+    Route::post('/spore/new', 'SporeTestController@createSporeTest');
+    Route::post('/spore/update', 'SporeTestController@updateSporeTest');
 
-    Route::get('/settings', 'SettingsController@index')->name('settings');
-    Route::post('/registerEquiptment', 'SettingsController@addSterilizer')->name('register');
 
+
+    Route::GET('/home', 'HomeController@index')->name('home');
     
 });
 
-Route::GET('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'settings', 'middleware' =>'auth'], function () {
+
+    Route::get('/', function(){
+        return redirect()->route('settings.user');
+    });
+    Route::get('/user','SettingsController@getUserView')->name('settings.user');
+    Route::get('/equiptment','SettingsController@getEquiptmentView')->name('settings.equiptment');
+    Route::get('/cleaners','SettingsController@getCleanersView')->name('settings.cleaners');
+    Route::get('/company','SettingsController@getCompanyView')->name('settings.company');
+    
+    Route::post('/settings/register/equiptment', 'SettingsController@addSterilizer');
+    Route::post('/settings/register/cleaner', 'SettingsController@addCleaner');
+});
+
 Route::GET('/company_register', 'CompaniesController@register')->name('company_register');
 Route::POST('/company_register', 'CompaniesController@registerCompany')->name('company');
-Route::GET('admin/home', 'AdminController@index');
 
 
 

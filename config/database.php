@@ -42,7 +42,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             // 'host' => env('DB_HOST', '127.0.0.1'),
-            'host' => $_ENV['DB_HOST']
+            'host' => $_ENV['DB_HOST'],
             'port' => $_ENV['DB_PORT'],
             // 'database' => env('DB_DATABASE', 'forge'),
             'database' => $_ENV['DB_NAME'],

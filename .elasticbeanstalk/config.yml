@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: staging-env
+    environment: sterilog-dev
 environment-defaults:
   Sterilog-env:
     branch: null

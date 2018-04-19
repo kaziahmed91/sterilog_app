@@ -17,10 +17,20 @@
             
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
+                    <ul class="list-group list-group-flush">
                         @foreach($cleaners as $eqpt)
-                            <li>{{ $eqpt['name'] }}</li>
+                            <li class='list-group-item d-flex align-items'>
+                                <span class="col-sm-4">
+                                    <strong>Name: </strong>{{ $eqpt['name'] }} 
+                                </span>
+   
+                                <span class="col-sm-4"><strong>Date Added</strong>
+                                    {{Carbon\Carbon::parse($eqpt['created_at'])->format('d-m-Y ')}}
+                                </span>
+                            </li>
                         @endforeach
-                    </div>
+                    </ul>
+                </div>
                 </div>
             </div>
             

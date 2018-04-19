@@ -2,7 +2,12 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-md-center mt-5">
+
+    <div class="row d-flex justify-content-center m-auto" style='width:800px'>
+        <img src="{{asset('images/Sterilog_Logo.png')}}" alt="" style="width:100%">
+    </div>
+    
+    <div class="row justify-content-md-center mt-2">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Login</div>

@@ -35,18 +35,19 @@ Route::get('/', function () {
 
 Route::group(['prefix' => '', 'middleware' =>'auth' ], function () {
 
-    Route::get('/sterilize', 'SterilizeController@index')->name('sterile');
-    Route::get('/sterilize/log', 'SterilizeController@viewLog')->name('sterilizeLog');
     
     // Route::post('/sterilize', 'SterilizeController@sterilize');
     Route::post('/sterilize', 'SterilizeController@sterilize');
+    Route::get('/sterilize', 'SterilizeController@index')->name('sterile');
+    Route::get('/sterilize/log', 'SterilizeController@viewLog')->name('sterile.logs');
+    
     Route::post('/sterilize/filter', 'SterilizeController@filter');
     Route::get('/sterilize/filter', 'SterilizeController@filter');
     Route::get('/privateKey', 'SterilizeController@getPrivateKey');
     Route::post('/deletePdf', 'SterilizeController@deletePdf');
     
 
-    Route::post('/cycleChanges', 'SterilizeController@logChanges');
+    Route::post('/updateCycle', 'SterilizeController@updateCycle');
     
     Route::post('/signSignature', 'SterilizeController@signSignature');
 
@@ -56,15 +57,20 @@ Route::group(['prefix' => '', 'middleware' =>'auth' ], function () {
     // Route::get('/spore/new', 'SporeTestController@createSporeTest')->name('spore.new');
     Route::post('/spore/new', 'SporeTestController@createSporeTest');
     Route::post('/spore/update', 'SporeTestController@updateSporeTest');
-
+    Route::post('/spore/update/comment', 'SporeTestController@updateSporeComment');
+    Route::get('/spore/log/filter', 'SporeTestController@filter');
+    Route::post('/spore/log/filter', 'SporeTestController@filter');
 
 
     Route::GET('/home', 'HomeController@index')->name('home');
+
+    Route::post('/user/login', 'SoftUserController@login' )->name('user.login');
+    Route::get('/user/logout', 'SoftUserController@logout' )->name('user.logout');
     
 });
 
 
-Route::group(['prefix' => 'settings', 'middleware' =>'auth'], function () {
+Route::group(['prefix' => 'settings', 'middleware' => 'auth'], function () {
 
     Route::get('/', function(){
         return redirect()->route('settings.user');
@@ -74,8 +80,10 @@ Route::group(['prefix' => 'settings', 'middleware' =>'auth'], function () {
     Route::get('/cleaners','SettingsController@getCleanersView')->name('settings.cleaners');
     Route::get('/company','SettingsController@getCompanyView')->name('settings.company');
     
-    Route::post('/settings/register/equiptment', 'SettingsController@addSterilizer');
-    Route::post('/settings/register/cleaner', 'SettingsController@addCleaner');
+    Route::post('/register/equiptment', 'SettingsController@addSterilizer');
+    Route::post('/register/cleaner', 'SettingsController@addCleaner');
+    Route::post('/register/user','SettingsController@addUser' )->name('settings.user.register');
+    Route::post('/register/user/password','SettingsController@changeSoftUserPassword' )->name('settings.user.password');
 });
 
 Route::GET('/company_register', 'CompaniesController@register')->name('company_register');

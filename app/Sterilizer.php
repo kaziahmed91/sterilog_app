@@ -24,8 +24,8 @@ class Sterilizer extends Model
         return $this->hasOne(Company::class, 'company_id', 'company_id');
     }
 
-    public function user() {
-        return $this->hasMany('User::class', 'added_by', 'user_id');
+    public function softUser() {
+        return $this->hasMany(SoftUser::class, 'added_by', 'id');
     }
 
     

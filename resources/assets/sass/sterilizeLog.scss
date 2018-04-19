@@ -1,3 +1,8 @@
+.select2-container--bootstrap .select2-selection--single {
+    height:36px;
+}
+
+
 .switchRow {
     p {
         line-height: 30px;
@@ -15,4 +20,34 @@
 
 .spore-slide {
     margin-left:0.3em;
+}
+
+.w-100 {
+    min-width:80px;
+    max-width:100px;
+}
+
+.w-150 {
+    min-width:120px;
+    max-width:150px;
+}
+
+.table td.text {
+    max-width: 200px;
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        max-width: 100%;
+    }
+}
+
+.tinyIcon {
+    width:30px;
+    margin-right:5px;
+}
+.table-responsive
+{
+    overflow-x: auto;
 }

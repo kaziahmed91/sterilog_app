@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+    $('.userNames').select2({
+        theme: "bootstrap",
+
+    });
+
+
     $('.settingsNav').children().hover(function(){
         if (!$(this).hasClass('currentPage'))
             $(this).toggleClass('active');

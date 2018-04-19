@@ -1,81 +1,149 @@
 @extends('layouts.app')
 @section('content')
     @include('includes.navbar') 
-<div class="container">
-    <div class="card m-4 ">
-        <div class=" m-4 mb-0 row header  border-bottom">
-            <p class='display-4'>Spore Test</p>
+    @include('includes.errorbar')
+    @include('includes.topbar')
+
+
+<div class="container card border h-70 w-40">        
+
+    <div class=" mx-4 mt-3  row header  border-bottom">
+
+        <p class='display-4 col'>Spore Logs</p>
+
+        <div class="row align-items-center mx-4 ">
+
+
+            <span class="border mx-2" style="height:80px; position:relative;"></span>
+
+            <a href="{{ route('spore') }}" class="ml-5 btn btn-primary topRight-icon btn-lg">
+                <img class="tinyIcon" src="{{asset('icons/spore_icon.svg')}}" alt="">
+                Add Test
+            </a>
         </div>
-        <div class="card-body">
+    </div>
 
-            <div class="row m-auto d-flex  ">
-                <button data-target="#addSporeTestModal" data-toggle="modal"  class="btn btn-primary btn-lg mr-2" >Add Test</button>
-                <a href="{{route('spore.logs')}}" class="btn btn-info btn-lg">View Logs</a>
+    <div class="card-body">
+
+        <form action="/spore/log/filter" role="form" method="get" class='row'>
+            {{ csrf_field() }}
+
+            <div class="form-group col-md-2">
+                <label for="daterange">Date Range</label>
+                <input type="text" class=' form-control' type="text" name="daterange">
             </div>
 
-            <br><br>
+            <div class="form-group col-md-2">
+                <label for="entry_operator">Entry Operator</label>
+                <select class="form-control" name="entry_operator" >
+                    {{-- <option value=''>Select One</option> --}}
+                    @foreach($operators as $operator)
+                        <option 
+                            value="{{$operator->id}}"> 
+                            {{$operator->first_name.' '.$operator->last_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-            <div class="card">
-                <div class="card-header">Active Tests</div>
-                <div class="card-body">
-                    <table class="table table-sm table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Entry Date</th>
-                                <th>Removal Date</th>
-                                <th>Entry By</th>
-                                <th>Removed By</th>
-                                <th>Sterilizer</th>
-                                <th>Cycle#</th>
-                                <th>Lot#</th>
-                                <th>Control Vial</th>
-                                <th>Test Vial</th>
-                                <th>Initial Comment</th>
-                                <th>Additional Comment</th>
+            <div class="form-group col-md-2">
+                <label for="removal_operator">Removal Operator</label>
+                <select class="form-control" name="removal_operator" >
+                    <option value=''>Select One</option>
+                    @foreach($operators as $operator)
+                        <option 
+                            value="{{ $operator->id }}"> 
+                            {{$operator->first_name.'  '.$operator->last_name}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="sterilizer">Sterilizer</label>
+                <select class="form-control" name="sterilizer">
+                    <option value=''>Select One</option>
+                    @foreach($sterilizers as $sterilizer)
+                        <option value="{{ $sterilizer->id }}"> {{$sterilizer->sterilizer_name}}</option>
+                    @endforeach                
+                </select>
+            </div>
+
+
+            <div class="form-group col-md-2">
+              <label for="lot">Lot</label>
+              <input type="number" class="form-control" name="lot" aria-describedby="helpId" placeholder="">
+            </div>
+      
+            <div class="form-group d-flex align-items-end col-sm-2">
+                <button type="submit" type="submit" class="btn btn-primary mr-2">Search</button>
+                <a href="{{url('/spore/log')}}" type="" class="btn btn-secondary ">Reset</a> 
+            </div>
+
+        </form>
+
+        <div class="card">
+            <div class="card-header">All Tests</div>
+            <div class="card-body table-responsive">
+                <table class="table table-sm table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th width="90">Entry Date</th>
+                            <th width="90">Removal Date</th>
+                            <th width="90">Entry By</th>
+                            <th width="90">Removed By</th>
+                            <th width="90" >Sterilizer</th>
+                            <th width="20">Cycle#</th>
+                            <th width="20">Lot#</th>
+                            <th width="40">Control Vial</th>
+                            <th width="40">Test Vial</th>
+                            <th width="130">Initial Comment</th>
+                            <th width="130">Additional Comment</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($tests as $test)
+                            <tr class="pointer" data-target="{{
+                                is_null($test['removal_at']) ? "#activeTestModal" : "#completedTestModal"
+                                }}"
+                                data-testId="{{$test['id']}}" data-toggle="modal" >
+                                <td class="entryDt">
+                                    {{ 
+                                    Carbon\Carbon::parse($test['entry_at'])->format('d-m-Y ')
+                                    }}</td>
+                                <td class="removDt">
+                                    {{  
+                                    Carbon\Carbon::parse($test['removal_at'])->format('d-m-Y')
+                                    }}</td>  
+
+                                <td class="entryUser">{{$test['entryUser']['first_name']}} {{$test['entryUser']['last_name']}}</td>
+                                <td class="removUser">{{$test['removalUser']['first_name']}} {{$test['removalUser']['last_name']}}</td>
+                                <td class="sterilizer">{{$test['sterilizer']['sterilizer_name']}}</td>
+                                <td class="cycle">{{$test['entry_cycle_number']}}</td>
+                                <td class="lot">{{$test['lot_number']}}</td>
+                                <td class="control">{{$test['control_sterile'] == 0 ? 'Unsterile' : 'Sterile'}}</td>
+                                <td class="test">{{$test['test_sterile'] == 0 ? 'Unsterile' : 'Sterile'}}</td>
+                                <td class="entComm text "><span>{{$test['initial_comments']}}</span></td>
+                                <td class="removComm text"> <span>{{$test['additional_comments']}}</span></td>
                             </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach($tests as $test)
-                                <tr class="pointer" data-target="#activeTestModal" data-testId="{{$test['id']}}" data-toggle="modal" >
-                                    <td class="entryDt">
-                                        {{ 
-                                        Carbon\Carbon::parse($test['entry_at'])->format('d-m-Y ')
-                                        }}</td>
-                                    <td class="removDt">
-                                        {{  
-                                        Carbon\Carbon::parse($test['removal_at'])->format('d-m-Y')
-                                        }}</td>  
-
-                                    {{-- <td class="entryTm="{{  Carbon\Carbon::parse($test['entry_at'])->format('h:i:s A')}}">{{  
-                                        Carbon\Carbon::parse($test['entry_at'])->format('h:i:s A')
-                                        }}</td>   --}}
-
-                                    <td class="entryUser">{{$test['entry_user'][0]['name']}}</td>
-                                    <td class="removUser">{{$test['removal_user'][0]['name']}}</td>
-                                    <td class="sterilizer">{{$test['sterilizer']['sterilizer_name']}}</td>
-                                    <td class="cycle">{{$test['entry_cycle_number']}}</td>
-                                    <td class="lot">{{$test['lot_number']}}</td>
-                                    <td class="control">{{$test['control_sterile'] == 0 ? 'Unsterile' : 'Sterile'}}</td>
-                                    <td class="test">{{$test['test_sterile'] == 0 ? 'Unsterile' : 'Sterile'}}</td>
-                                    <td class="entComm">{{$test['initial_comments']}}</td>
-                                    <td class="removComm"> {{$test['additional_comments']}}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
+                <div class="mx-auto">
+                {{ $tests->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}
+                </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="activeTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="completedTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="headerText">Complete Spore Test</h5>
+                <h5 class="modal-title" id="headerText">Completed Spore Test</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -130,29 +198,31 @@
                 </div>
 
                 <div class="row">
-                    <p class='font-weight-bold'>Entry Comment: </p>
+                    <p class='font-weight-bold'>Entry Comment: </p>&nbsp;
                     <p id="ent_comment"></p>
                 </div>
 
-                <div class="">
-                    <label for="initial_comments">Additional Comments</label>
-                    <textarea class='form-control' id="additional_comments" rows="2" ></textarea>
+                <div class="form-group">
+                    <label for="additional_comments font-weight-bold">Additional Comments</label>
+                    <textarea class='form-control' id="additional_comments_after" rows="2" ></textarea>
                 </div>
                         
             </div>
     
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="updateSporeTest">Update</button>
+                <button type="button" class="btn btn-secondary dismiss-modal"  data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="updateComments">Update</button>
             </div>
 
         </div>
     </div>
 </div>
 
+    @include('includes.updateSporeTest-modal')
+    @include('includes.login-modal')
 
     @section('script')  
-        <script src="{{asset('js/spore-log.js')}}"></script>
+        <script src="{{asset('js/spore-test.js')}}"></script>
     @endsection
 @endsection()
 

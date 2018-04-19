@@ -1,27 +1,54 @@
 @extends('layouts.app')
 @section('content')
     @include("includes.navbar")
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+    @include("includes.errorbar")
+    @include("includes.topbar")
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-        
-                    <br>
-                    <div class="container">
-                        <a class="btn btn-primary col-md-3" href="{{ route('sterile') }}">Sterilizer Load</a>
-                        <a class="btn btn-primary col-md-3" href="{{ route('spore') }}">Spore Test</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container d-flex mt-5 ">
+    
+    <div class="col-sm-4  d-flex align-items-center">
+        <img class='largeLogo' src="{{asset('images/sterilog_logo.png')}}" alt="">
     </div>
+
+    <div class="offset-1 col-sm-6  d-flex flex-column">
+        <div class="row justify-content-between">
+            <a class="menu-button btn btn-primary  d-flex" href="{{ route('sterile') }}">
+                <img class="menu-icon" src="/icons/sterilizer_icon.png" alt="">
+                <div class=' d-flex flex-column '>
+                    <p class='m-auto'>Sterilizer <br>Load</br></p>
+                </div>
+            </a>
+                <br><br>
+            <a class="menu-button  btn btn-primary d-flex" href="{{ route('sterile.logs') }}">
+                <img class="menu-icon" src="{{ asset('icons/log_icon.png')}}" alt="">
+                <div class='d-flex flex-column '>
+                    <p class='m-auto'>Sterilizer <br>Logs</p>
+                </div>
+            </a>
+        </div>
+
+            <br><br>
+
+        <div class="row justify-content-between">
+            <a class="menu-button btn  btn-primary  d-flex" href="{{ route('spore') }}">
+                <img class="menu-icon" src="{{ asset('icons/spore_icon.svg')}}" alt="">
+                <div class='d-flex flex-column '>
+                    <p class='m-auto'>Spore <br>Test</p>
+                </div>
+            </a>
+                <br><br>
+            <a class="menu-button btn btn-primary  d-flex" href="{{ route('spore.logs') }}">
+                <img class="menu-icon" src="{{ asset('icons/log_icon.png')}}" alt="">
+                <div class="d-flex flex-column ">
+                    <p class='m-auto'>Spore <br>Logs</p>
+                </div>
+            </a>
+
+        </div>
+        
+    </div>
+    
+
 </div>
+    @include('includes.login-modal')
 @endsection

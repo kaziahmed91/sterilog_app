@@ -1,8 +1,6 @@
 
 var config = null;  
 var privateKey;
-    /// Pixel Printers ///
-
     
     $.get('/privateKey', {"_token":  $('meta[name=csrf-token]').attr('content')}, function (res) {
         var response = res.response; 
@@ -17,24 +15,26 @@ var privateKey;
         let printerName = 'PDFwriter';
         if (qz.websocket.isActive()) {
             console.log('printer is active')
+            $('.printerStatus span').html('<b>Active!</b>')
         }
         else {
             console.log('connecting printer')
             qz.websocket.connect().then(function () {
+                $('.printerStatus span').html('<b>Active!</b>')
+
                 return qz.printers.find(printerName);               // Pass the printer name into the next Promise
             }).then(function (printer) {
                 console.log(printer);
                 config = qz.configs.create(printer);       // Create a default config for the found printer
                 console.log(config);
             }).catch(e => {
-                console.log(e);
+                $('.printerStatus span').html('<b>Inctive!</b>')
+                var message = "Printer Connection Error! : There was an issue connecting with the printer."
+                $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>', '<li>'+e.message+'</li>' );
+                console.log(e.message);
             });
         }
     }
-
-
-
-
 
     qz.security.setCertificatePromise(function(resolve, reject) {
 
@@ -76,21 +76,24 @@ var privateKey;
             } catch (err) {
                 console.error(err);
                 reject(err);
+                $('.printerStatus span').html('<b>Inctive!</b>')
+                var message = "Printer Error! : The system was unable to establish a security signature!"
+                $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>');
             }
         };
     });
 
-qz.configs.setDefaults({
-    size: {
-        width: 50.8, 
-        height: 25.4
-    }, 
-    units: 'mm', 
-    orientation: 'landscape'
-})
+    qz.configs.setDefaults({
+        size: {
+            width: 50.8, 
+            height: 25.4
+        }, 
+        units: 'mm', 
+        orientation: 'landscape'
+    })
 
-function strip(key) {
-    if (key.indexOf('-----') !== -1) {
-        return key.split('-----')[2].replace(/\r?\n|\r/g, '');
+    function strip(key) {
+        if (key.indexOf('-----') !== -1) {
+            return key.split('-----')[2].replace(/\r?\n|\r/g, '');
+        }
     }
-}

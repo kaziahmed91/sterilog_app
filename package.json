@@ -16,9 +16,10 @@
         "jquery": "^3.2",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
-        "popper.js": "^1.14.3"
+        "popper.js": "^1.14.3",
+        "bootstrap-select": "^1.12.4"
     },
     "dependencies": {
-
+        "bootstrap-switch": "^3.3.4"
     }
 }

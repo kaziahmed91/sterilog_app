@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 
 use App\Services\SterilizerPrintService;
 use App\Services\SterilizerService;
@@ -12,11 +13,14 @@ use Codedge\Fpdf\Fpdf\Fpdf as FPDF;
 use Carbon\Carbon;
 use Auth;
 use Exception;
+use Session;
 use App\Companies as CompaniesModel;
 use App\User as UserModel;
+use App\SoftUser as SoftUserModel;
 use App\Sterilizer as SterilizeModel;
 use App\Cleaners as CleanersModel;
 use App\Cycles as CyclesModel;
+
 
 class SterilizeController extends Controller
 {   
@@ -46,7 +50,7 @@ class SterilizeController extends Controller
     }
     public function getOperators()
     {
-        $operators = UserModel::where('company_id', \Auth::user()->company_id)->whereNull('date_deleted')->get();
+        $operators = SoftUserModel::where('company_id', \Auth::user()->company_id)  ->get();
         return $operators ? $operators : null;
     }
     public function getSterilizer ($id) {
@@ -56,11 +60,6 @@ class SterilizeController extends Controller
         return $sterilzier ? $sterilzier : null;
     }
 
-    public function getCleaner ($id)
-    {
-        $cleaner = CleanersModel::where('company_id', \Auth::user()->company_id)->where('id', $id)->first();
-        return $cleaner ? $cleaner : null;
-    }
 
     public function getPrivateKey(Request $request, SterilizerPrintService $printService)
     {
@@ -79,17 +78,26 @@ class SterilizeController extends Controller
         $sterilizers = $this->getSterilizers();
         $operators = $this->getOperators();
 
+        $checked = Auth::user()->type_5;
         $cycle = CyclesModel::where('company_id', \Auth::user()->company_id)->whereNull('deleted_at')->orderBy('id', 'Desc')->first();
 
         $log_number = $cycle ? $cycle->cycle_number + 1 : 0;
 
-        return view('auth.sterilize', ['sterilizers' => $sterilizers, 'cleaners' => $cleaners, 'operators' => $operators, 'log_number', $log_number]);
+        return view('auth.sterilize', [
+            'sterilizers' => $sterilizers, 
+            'cleaners' => $cleaners, 
+            'operators' => $operators, 
+            'log_number'=> $log_number, 
+            'checked' => $checked
+            ]);
     }
 
     public function logPost(Request $request ) {
         
         return view('auth.sterilizeLog');
     } 
+
+    
 
     public function viewLog ()  
     {
@@ -98,10 +106,11 @@ class SterilizeController extends Controller
         $operators = $this->getOperators();
 
         $activeCycles = CyclesModel::where('company_id', \Auth::user()->company_id)
-            ->with('user')
+            ->with('entryUser')
+            ->with('removalUser')
             ->with('cleaners')
             ->with('sterilizer')
-            ->whereNull('completed_by')
+            ->orderBy('created_at', 'desc')
             ->paginate(15);
             // ->get();
 
@@ -111,7 +120,7 @@ class SterilizeController extends Controller
     public function filter (Request $request , SterilizerService $sterilizerService) 
     {
         $data = $request->all();
-       
+
         $cleaners = $this->getCleaners();
         $sterilizers = $this->getSterilizers();
         $operators = $this->getOperators();
@@ -128,103 +137,52 @@ class SterilizeController extends Controller
     }
 
 
-    public function sterilize(Request $request, SterilizerPrintService $printService)
+    public function sterilize(Request $request, SterilizerService $sterilizerService, SterilizerPrintService $printService)
     {   
-        $data = $request->all();    
-        array_filter($data['data']); //removes all empty values
-        $printFiles = [];
-        $filepaths = [];
-        $label_data = [];
-        
-        foreach ( $data['data'] as $id => $value) {
-
-            if (isset($value) && $value !== '') {
-
-                try {
-                    $cycle = CyclesModel::create([
-                        'company_id' => \Auth::user()->company_id,
-                        'user_id' => \Auth::user()->id,
-                        'sterilizer_id'  => $data['sterilizer_id'],
-                        'cleaner_id' => $id,
-                        'units_printed' => $value,
-                        'cycle_number' => $data['cycle_number'],
-                        'comment' => $data['comment']
-                    ]);
-                    
-                    $sterilizer = SterilizeModel::where('id', $data['sterilizer_id'])->first();
-                    $sterilizer->cycle_number = $data['sterilizer_id']; 
-                    
-                    $label_data[] = [
-                        'cycle_num' => $data['cycle_number'],
-                        'units_printed' => $value, 
-                        'sterilizer' => $data['sterilizer'], 
-                        'cleaner' => $this->getCleaner($id)['name']
-                    ];
-
-
-                } catch (Exception $e) {
-                    error_log($e->getMessage());
-                    error_log($e->getLine());
-                    return response()->json($e->getMessage(), $e->getCode());
-                }
-
-
-                if (!$cycle) {
-                    return response()->json(['response'=> 'error! Problem creating cycle'], 500);
-                }
-            } 
-        }
-        try {
-            $file = $this->generateTags($label_data, $printService);
-            $printFiles[] = $file[0];
-            $filepaths[] = $file[1];
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            error_log($e->getLine());
-            return response()->json($e->getMessage(), $e->getCode());
-        }
-
-        return response()->json(['response' => 'success', 'printFiles' => $printFiles, 'filepaths' => $filepaths], 200);
-    }
-
-    public function logChanges ( Request $request)
-    {
         $data = $request->all();
-
-        if ($data['batch'] === '1') {
-            $cycles = CyclesModel::where('company_id', \Auth::user()->company_id)->
-                where('cycle_number', $data['cycle_number'])->whereNull('completed_by')->get();
-
-            if ($cycles) {
-                foreach ($cycles as $cycle) {
-                    $cycle['type_1'] = $data['type1'];
-                    $cycle['type_4'] = $data['type4'];
-                    $cycle['type_5'] = $data['type5'];
-                    $cycle['completed_by'] = \Auth::user()->id;
-
-                    if (!$cycle->save()) {
-                        return response()->json(['response'=> 'error! Problem batch saving'], 500);
-                    }
-                }
-            } 
-
-        } elseif ( $data['batch'] === '0')
+        $logged_in = $request->session()->get('softUser_userName');
+        // error_log(print_r($data,true));
+        if (Gate::allows('write_access') )
         {
-            $cycle = CyclesModel::where('company_id', \Auth::user()->company_id)->where('id', $data['cycle_id'])->first();
-            if ($cycle) {
-                $cycle->type_1 = $data['type1'];
-                $cycle->type_4 = $data['type4'];
-                $cycle->type_5 = $data['type5'];
-                $cycle->completed_by = \Auth::user()->id;
-            } 
-            if (!$cycle->save() ){
-                return response()->json(['response'=> 'error! Problem batch cycle!'], 500);
+            $logged_in = $request->session()->get('softUser_userName');
+            $user = SoftUserModel::where('company_id', \Auth::user()->company_id)
+                ->where('user_name', $logged_in)->first();
+            try {
+                $file_and_path_array = $sterilizerService->sterilize($user,$request, $printService);
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                error_log($e->getLine());
+                return response()->json(['response' => 'error', 'message' => 'Error creating sterilization stickers!', 'line' => $e->getLine() ],500);
             }
 
+            return  response()->json(['response' => 'success',  'printFiles' => $file_and_path_array['printFiles'], 'filepaths' => $file_and_path_array['filepaths']], 200);
+
+        } else {
+            return response()->json(['response' => 'error',  'message' => 'Please log in to continue']);
         }
+    }
 
-        return response()->json(['response' => 'success', 'data' => $data], 200);
+    public function updateCycle ( Request $request, SterilizerService $sterilizerService)
+    {
+        $data = $request->all();
+        if (Gate::allows('write_access') )
+        {
+            $logged_in = $request->session()->get('softUser_userName');
+            $user = SoftUserModel::where('company_id', \Auth::user()->company_id)
+                ->where('user_name', $logged_in)->first();
+            try {
+                $updatedCycle = $sterilizerService->updateCycle($user,$data);
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                error_log($e->getLine());
+                return response()->json(['response' => 'error', 'message' => 'Error updating sterilization cycle!', 'line' => $e->getLine() ],500);
+            }
 
+            return response()->json(['response' => 'success', 'message' => 'Cycle has been updated succesfully!'], 200);
+
+        } else {
+            return response()->json(['response' => 'error',  'message' => 'Please log in to continue']);
+        }
     }
 
     public function signSignature (Request $request)
@@ -248,20 +206,7 @@ class SterilizeController extends Controller
     }
 
 
-    private function generateTags ($data, SterilizerPrintService $printService)
-    {
-        // error_log(print_r($data,true));
 
-        try {
-            $filepath = $printService->generatePdfTag($data); 
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            error_log($e->getLine());
-            return response()->json($e->getMessage(), $e->getCode());
-        }
-        return $filepath;
-
-    }
 
     public function deletePdf (Request $request , SterilizerPrintService $printService)
     {
@@ -277,4 +222,5 @@ class SterilizeController extends Controller
         return response()->json(['response' => 'success'], 200);
 
     }
+
 }

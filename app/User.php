@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Cycles;
+use App\SporeTest;
+use App\Companies;
 
 class User extends Authenticatable
 {
@@ -15,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'company_id'
+        'name', 'email', 'password', 'company_id', 'type_5'
     ];
 
     /**
@@ -28,10 +31,17 @@ class User extends Authenticatable
     ];
 
     public function company() {
-        return $this->hasOne(Company::class, 'company_id','company_id');
+        return $this->belongsTo(Companies::class, 'company_id','id');
     }
 
     public function cycles() {
         return $this->hasMany(Cycles::class, 'user_id', 'user_id');
+    }
+    public function sporeTest() {
+        return $this->hasMany(SporeTest::class, 'user_id', 'user_id');
+    }
+
+    public function getUserCompany() {
+        return $this->company();
     }
 }

@@ -105,7 +105,7 @@ class SettingsController extends Controller
             'manufacturer' => $data['manufacturer'],
             'serial' => $data['serial'],
             'added_by' => \Auth::user()->id , 
-            'date_added' => Carbon::now()
+            'created_at' => Carbon::now()
         ]);
         
         if (!$sterilizer) {

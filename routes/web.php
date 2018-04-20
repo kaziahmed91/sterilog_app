@@ -81,7 +81,7 @@ Route::group(['prefix' => 'settings', 'middleware' => 'auth'], function () {
     Route::get('/company','SettingsController@getCompanyView')->name('settings.company');
     
     Route::post('/register/equiptment', 'SettingsController@addSterilizer');
-    Route::post('/register/cleaner', 'SettingsController@addCleaner')->name('settings.cleaners.register');;
+    Route::post('/register/cleaners', 'SettingsController@addCleaner');
     Route::post('/register/user','SettingsController@addUser' )->name('settings.user.register');
     Route::post('/register/user/password','SettingsController@changeSoftUserPassword' )->name('settings.user.password');
 });

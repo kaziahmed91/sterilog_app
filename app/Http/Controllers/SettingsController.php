@@ -60,12 +60,12 @@ class SettingsController extends Controller
         $company_id = \Auth::user()->company_id;
         $data = $request->all();
         $validator = Validator::make($data, [
-            'name' => 'required|string',
+            'cleaner_name' => 'required|string',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
+        // dd($data);
         $cleaner = CleanersModel::create([
             'name' => $data['cleaner_name'], 
             'company_id' => $company_id, 
@@ -85,7 +85,6 @@ class SettingsController extends Controller
     {
         $data = $request->all();
         $company_id = \Auth::user()->company_id;
-
         $data  = $request->all();
 
         $validator = Validator::make($data, [

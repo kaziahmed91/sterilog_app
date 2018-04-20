@@ -168,7 +168,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\Debugbar\ServiceProvider::class,
+      
         Codedge\Fpdf\FpdfServiceProvider::class,
 
         /*

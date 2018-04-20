@@ -9,7 +9,7 @@ use App\Sterilizer;
 
 class Companies extends Model
 {
-    protected $table= 'Companies';
+    protected $table= 'companies';
     protected $fillable = array('name', 'address', 'province','telephone','public_id' ,'postal','email','key_contact');
 
 

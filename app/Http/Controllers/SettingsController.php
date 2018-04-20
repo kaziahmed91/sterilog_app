@@ -105,7 +105,8 @@ class SettingsController extends Controller
             'manufacturer' => $data['manufacturer'],
             'serial' => $data['serial'],
             'added_by' => \Auth::user()->id , 
-            'date_added' => Carbon::now()
+            'created_at' => Carbon::now(), 
+            'cycle_number' => 0
         ]);
         
         if (!$sterilizer) {
@@ -115,7 +116,7 @@ class SettingsController extends Controller
 
         Session::flash('success', 'New Sterilizer has been registered!');
 
-        $this->back();
+        return back();
     }
 
     public function addUser( Request $request )

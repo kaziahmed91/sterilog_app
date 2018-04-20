@@ -46,7 +46,7 @@
                                 </span>
    
                                 <span class="col-sm-4"><strong>Date Added</strong>
-                                    {{Carbon\Carbon::parse($eqpt['date_added'])->format('d-m-Y ')}}
+                                    {{Carbon\Carbon::parse($eqpt['created_at'])->format('d-m-Y ')}}
                                 </span>
                             </li>
                         @endforeach

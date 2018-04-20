@@ -14,7 +14,7 @@ class Sterilizer extends Model
     protected $guarded = ['company_id'];
     protected $fillable = 
         ['company_id','sterilizer_name','serial','added_by', 
-        'date_added','manufacturer', 'date_deleted', 'active'];
+        'created_at','manufacturer', 'date_deleted', 'active', 'cycle_number'];
     
     // use SoftDeletes;
     public $timestamps = false;

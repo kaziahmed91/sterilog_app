@@ -17,7 +17,7 @@ class AddSterilizerIdentifiers extends Migration
             $table->string('manufacturer')->nullable();
             $table->string('serial')->nullabe();
             $table->tinyInteger('active')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            // $table->timestamp('updated_at')->nullable();
         });
     }
 

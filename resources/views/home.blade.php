@@ -7,7 +7,7 @@
     <div class="container d-flex mt-5 ">
     
     <div class="col-sm-4  d-flex align-items-center">
-        <img class='largeLogo' src="{{asset('images/sterilog_logo.png')}}" alt="">
+        <img class='largeLogo' src="{{asset('images/Sterilog_Logo.png')}}" alt="">
     </div>
 
     <div class="offset-1 col-sm-6  d-flex flex-column">

@@ -76,7 +76,7 @@ class SettingsController extends Controller
             Session::flash('error', 'There was a problem adding a cleaner.');
             throw new Exception("Cleaner Could not be added", 400);
         }
-        $this->back();
+        return back();
 
     }
 

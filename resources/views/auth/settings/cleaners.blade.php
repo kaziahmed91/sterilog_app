@@ -44,7 +44,7 @@
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
-                        <form action="/settings/register/cleaner" method="post">
+                        <form action="{{route('settings.cleaners.register')}}" method="post">
                             {{ csrf_field() }}
 
                             <div class="form-group ">

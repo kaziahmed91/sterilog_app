@@ -23,7 +23,7 @@ class SterilizerService
     {
         $query = CyclesModel::where('company_id',\Auth::user()->company_id );
         $queriers = [];
-        error_log(print_r($request->all(),true));
+        // error_log(print_r($request->all(),true));
         if ($request->has('daterange') && !is_null($request->input('daterange') ))
         {
             $dates = explode(' ',$request->input('daterange') );
@@ -107,7 +107,8 @@ class SterilizerService
                         'cycle_num' => $data['cycle_number'],
                         'units_printed' => $value, 
                         'sterilizer' => $data['sterilizer'], 
-                        'cleaner' => $this->getCleaner($id)['name']
+                        'cleaner' => $this->getCleaner($id)['name'], 
+                        'user' => $user->first_name.' '.$user->last_name
                     ];
 
                 } catch (Exception $e) {
@@ -126,9 +127,9 @@ class SterilizerService
                 $sterilizer->save();
 
                 
-                $user = UserModel::where('id', \Auth::user()->id)->first();
-                $user->type_5 = intval($data['type_5']);
-                $user->save();
+                $superUser = UserModel::where('id', \Auth::user()->id)->first();
+                $superUser->type_5 = intval($data['type_5']);
+                $superUser->save();
             } 
         }
         try {
@@ -182,7 +183,7 @@ class SterilizerService
                 $cycle->completed_by = $user->id;
                 $cycle['completed_on'] = Carbon::now();
 
-            } 
+            }
             if (!$cycle->save() ){
                 return response()->json(['response'=> 'error! roblem batch cycle!'], 500);
             }

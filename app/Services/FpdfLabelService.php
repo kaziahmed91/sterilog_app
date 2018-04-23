@@ -113,8 +113,10 @@ class FpdfLabelService extends FPDF {
 
         $_PosX = $this->_Margin_Left + $this->_COUNTX*($this->_Width+$this->_X_Space) + $this->_Padding;
         $_PosY = $this->_Margin_Top + $this->_COUNTY*($this->_Height+$this->_Y_Space) + $this->_Padding;
-        $this->SetXY($_PosX, $_PosY);
+        $this->SetXY(4, 2);
         $this->MultiCell($this->_Width - $this->_Padding, $this->_Line_Height, $text, 0, 'C');
+        $this->Image( public_path().'/images/print_logo.png',0, 0, 10,$this->_Height);
+
     }
 
     function _putcatalog()

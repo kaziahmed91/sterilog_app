@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
-
+    
 use App\Services\FpdfLabelService as FpdfLabelService;
 use Carbon\Carbon; 
 use Exception;
@@ -17,32 +17,40 @@ class SterilizerPrintService
     {
         $filename = rand();
         $path = $_SERVER["DOCUMENT_ROOT"] . "/temp_docs/".$filename.".pdf";
-        error_log(print_r($data,true));
+        // error_log(print_r($data,true));
     
         $pdf = new FpdfLabelService([        
             'paper-size'=>[50.8, 25.4], 
             'metric'=>'mm', 
-            'marginLeft'=>1, 
-            'marginTop'=>1, 
-            'NX'=>1, 
-            'NY'=>1, 
-            'SpaceX'=>1, 
-            'SpaceY'=>1,
+            'marginLeft'=>0, 
+            'marginTop'=>0, 
+            'NX'=>2, 
+            'NY'=>2, 
+            'SpaceX'=>2, 
+            'SpaceY'=>2,
             'width'=>50, 
             'height'=>25, 
-            'font-size'=>10
+            'font-size'=>9
             ]);
         
         try {
             $pdf->AddPage();
             foreach ($data as $key => $label){
+
                 $cleaner = $label['cleaner']; 
                 $units = $label['units_printed']; 
                 $cycle_num = $label['cycle_num'];
                 $sterilizer = $label['sterilizer'];
+                $user = $label['user'];
 
                 for ($i=0; $i < $units ; $i++) { 
-                    $text = sprintf("%s\n%s\n%s\n%s %s, %s", $cleaner, 'Cycle# '.$cycle_num, $sterilizer, Carbon::Now()->format('d-m-Y '), Carbon::Now()->format('h:i:s A'), 'STERILOG');
+                    $text = sprintf("%s %s\n%s\n%s\n%s\n%s", 
+                         Carbon::Now()->format('d-m-Y '), Carbon::Now()->format('h:i:s A'),
+                         'Sterilizer: '.$sterilizer,
+                         'Cycle # '.$cycle_num,
+                         $cleaner,
+                         $user);
+
                     $pdf->Add_Label($text);
                 }
             }
@@ -97,7 +105,7 @@ class SterilizerPrintService
         // foreach($paths as $key => $path)
         // {
             // error_log($path);
-            unlink($path);
+            // unlink($path);
         // }
         return true;
     }

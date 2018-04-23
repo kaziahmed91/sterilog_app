@@ -8,7 +8,7 @@ var privateKey, selectedPrinter;
         if (response == 'success') {
             privateKey = res.privateKey;
             selectedPrinter = res.printer;
-            initializePrinter()
+            initializePrinter();
         }
     })
 

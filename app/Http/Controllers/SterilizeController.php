@@ -65,12 +65,17 @@ class SterilizeController extends Controller
     {
         try {
             $privateKey = $printService->getPrivateKey();
+            $printer = \Auth::user()->current_printer;
+            if ( is_null($printer) ){
+                $printer = '';
+            }
+
         } catch (Exception $e) {
             error_log($e->getMessage());
             error_log($e->getLine());
             return response()->json($e->getMessage(), $e->getCode());
         }
-        return  response()->json(['response' => 'success', 'privateKey' => $privateKey]);
+        return  response()->json(['response' => 'success', 'privateKey' => $privateKey, 'printer' => $printer]);
     }
 
     public function index () {

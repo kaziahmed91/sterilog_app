@@ -15,7 +15,6 @@ class SettingsController extends Controller
 {
     public function __construct() {
         $this->middleware('auth');
-        
     }
 
     public function index () {
@@ -23,7 +22,6 @@ class SettingsController extends Controller
         $users = SoftUserModel::where('company_id', $company_id)->get();
         $equiptments = SterilizerModel::where('company_id', $company_id)->whereNull('date_deleted')->get()->toArray(); 
         $cleaners = CleanersModel::where('company_id', $company_id)->whereNull('date_deleted')->get()->toArray(); 
-
         return view('auth.settings', ['users' => $users, 'equiptments' => $equiptments, 'cleaners' => $cleaners ]);
     }
 
@@ -76,6 +74,28 @@ class SettingsController extends Controller
             Session::flash('error', 'There was a problem adding a cleaner.');
             throw new Exception("Cleaner Could not be added", 400);
         }
+        return back();
+
+    }
+
+
+    public function editPrinter (Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'printer' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if (!UserModel::where('id', \Auth::user()->id)->update([ 'current_printer' => $data['printer'] ])) {
+            Session::flash('error', 'There was a problem updating the printer!');
+            return redirect()->back();
+        }
+
+        Session::flash('success', 'Printer settings have been updated!');
+
         return back();
 
     }

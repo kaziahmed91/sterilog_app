@@ -82,6 +82,7 @@ Route::group(['prefix' => 'settings', 'middleware' => 'auth'], function () {
     
     Route::post('/register/equiptment', 'SettingsController@addSterilizer');
     Route::post('/register/cleaners', 'SettingsController@addCleaner');
+    Route::post('/register/company/printer', 'SettingsController@editPrinter')->name('settings.printer.edit');
     Route::post('/register/user','SettingsController@addUser' )->name('settings.user.register');
     Route::post('/register/user/password','SettingsController@changeSoftUserPassword' )->name('settings.user.password');
 });

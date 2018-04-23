@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 
-    <div class="row d-flex justify-content-center m-auto" style='width:800px'>
+    <div class="row d-flex justify-content-center m-auto" style='width:700px'>
         <img src="{{asset('images/Sterilog_Logo.png')}}" alt="" style="width:100%">
     </div>
     

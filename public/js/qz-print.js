@@ -1,18 +1,18 @@
 
 var config = null;  
-var privateKey;
+var privateKey, selectedPrinter;
     
     $.get('/privateKey', {"_token":  $('meta[name=csrf-token]').attr('content')}, function (res) {
         var response = res.response; 
 
         if (response == 'success') {
             privateKey = res.privateKey;
+            selectedPrinter = res.printer;
             initializePrinter()
         }
     })
 
     function initializePrinter() {
-        let printerName = 'PDFwriter';
         if (qz.websocket.isActive()) {
             console.log('printer is active')
             $('.printerStatus span').html('<b>Active!</b>')
@@ -22,7 +22,7 @@ var privateKey;
             qz.websocket.connect().then(function () {
                 $('.printerStatus span').html('<b>Active!</b>')
 
-                return qz.printers.find(printerName);               // Pass the printer name into the next Promise
+                return qz.printers.find(selectedPrinter);               // Pass the printer name into the next Promise
             }).then(function (printer) {
                 console.log(printer);
                 config = qz.configs.create(printer);       // Create a default config for the found printer

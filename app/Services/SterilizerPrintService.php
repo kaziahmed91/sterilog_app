@@ -99,16 +99,6 @@ class SterilizerPrintService
             "-----END PRIVATE KEY-----\n";
     }
 
-        
-    public function deletePdf ($path)
-    {
-        // foreach($paths as $key => $path)
-        // {
-            // error_log($path);
-            // unlink($path);
-        // }
-        return true;
-    }
 
 }
 

@@ -213,12 +213,11 @@ class SterilizeController extends Controller
 
 
 
-    public function deletePdf (Request $request , SterilizerPrintService $printService)
+    public function deletePdf (Request $request)
     {
         $data = $request->all();
-        error_log(print_r($data,true));
         try {
-            $filepath = $printService->deletePdf($data['filepaths']); 
+            unlink($data['filepaths']);
         } catch (Exception $e) {
             error_log($e->getMessage());
             error_log($e->getLine());

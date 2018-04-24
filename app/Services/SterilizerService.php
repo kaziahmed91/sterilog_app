@@ -87,7 +87,7 @@ class SterilizerService
         
         foreach ( $data['data'] as $id => $value) {
 
-            if (isset($value) && $value !== '') {
+            if (isset($value) && $value !== '' && $value > 0) {
 
                 try {
                     $cycle = CyclesModel::create([
@@ -189,7 +189,7 @@ class SterilizerService
             }
 
         }
-    }
+    } 
 
     private function generateTags ($data, SterilizerPrintService $printService)
     {

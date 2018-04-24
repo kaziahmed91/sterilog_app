@@ -217,7 +217,7 @@ class SterilizeController extends Controller
     {
         $data = $request->all();
         try {
-            unlink($data['filepaths']);
+            // unlink($data['filepaths']);
         } catch (Exception $e) {
             error_log($e->getMessage());
             error_log($e->getLine());

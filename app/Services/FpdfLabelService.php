@@ -107,10 +107,11 @@ class FpdfLabelService extends FPDF {
             if ($this->_COUNTY == $this->_Y_Number) {
                 // End of page reached, we start a new one
                 $this->_COUNTY=0;
-                $this->AddPage();
+                // $this->AddPage();
+                // error_log('adding page dawg');
             }
         }
-
+        // error_log($text);  
         $_PosX = $this->_Margin_Left + $this->_COUNTX*($this->_Width+$this->_X_Space) + $this->_Padding;
         $_PosY = $this->_Margin_Top + $this->_COUNTY*($this->_Height+$this->_Y_Space) + $this->_Padding;
         $this->SetXY(4, 2);

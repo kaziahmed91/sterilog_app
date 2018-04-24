@@ -10,7 +10,7 @@ $(document).ready(function() {
         locale: {
         format: 'YYYY-MM-DD'
         },
-        startDate: '2018-03-10',
+        startDate: '2018-04-10',
     }, 
         function(start, end, label) {
             console.log("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));

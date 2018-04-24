@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Company;
-use App\User;
+use App\SoftUser;
 
 class Sterilizer extends Model
 {
@@ -25,7 +25,7 @@ class Sterilizer extends Model
     }
 
     public function softUser() {
-        return $this->hasMany(SoftUser::class, 'added_by', 'id');
+        return $this->hasOne(SoftUser::class, 'added_by', 'id');
     }
 
     

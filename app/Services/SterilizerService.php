@@ -37,8 +37,8 @@ class SterilizerService
         if ($request->has('operator') && !is_null($request->input('operator')))
         {
             $name = explode(' ',$request->input('operator') );
-            
-            $query->whereHas('softUser', function ($user) use ($name) {
+            error_log(print_r($name,true));
+            $query->whereHas('entryUser', function ($user) use ($name) {
                 $user->where('first_name', 'like', $name[0])
                 ->where('last_name', 'like', $name[1]);
             });
@@ -84,7 +84,47 @@ class SterilizerService
         $batch_num = CyclesModel::where('company_id' ,\Auth::user()->company_id)->orderBy('created_at', 'DESC')->pluck('batch_number')->first();
         $batch_num += 1;
 
+        foreach ( $data['data'] as $id => $value) {
+
+            if (isset($value) && $value !== '' && $value > 0) {
+
+                $label_data[] = [
+                    'cycle_num' => $data['cycle_number'],
+                    'units_printed' => $value, 
+                    'sterilizer' => $data['sterilizer'], 
+                    'cleaner' => $this->getCleaner($id)['name'], 
+                    'user' => $user->first_name.' '.$user->last_name
+                ];
+
+            }
+        }
+
         
+        try {
+            $file = $this->generateTags($label_data, $printService);
+            $printFiles = $file[0];
+            $filepaths = $file[1];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            error_log($e->getLine());
+            throw $e;
+
+        }
+        $sterilizer = SterilizeModel::where('id', $data['sterilizer_id'])->first();
+        $sterilizer->cycle_number = $data['cycle_number']; 
+        $sterilizer->save();
+
+        $superUser = UserModel::where('id', \Auth::user()->id)->first();
+        $superUser->type_5 = intval($data['type_5']);
+        $superUser->save();
+
+        $this->saveSterilizeCycle($data, $batch_num, $user);
+
+        return ['printFiles' => $printFiles, 'filepaths' => $filepaths];
+    }
+
+    private function saveSterilizeCycle($data, $batch_num, $user)
+    {
         foreach ( $data['data'] as $id => $value) {
 
             if (isset($value) && $value !== '' && $value > 0) {
@@ -101,15 +141,7 @@ class SterilizerService
                         'comment' => $data['comment'],
                         'type_5_testing' => $data['type_5']
                     ]);
-                    
-                
-                    $label_data[] = [
-                        'cycle_num' => $data['cycle_number'],
-                        'units_printed' => $value, 
-                        'sterilizer' => $data['sterilizer'], 
-                        'cleaner' => $this->getCleaner($id)['name'], 
-                        'user' => $user->first_name.' '.$user->last_name
-                    ];
+
 
                 } catch (Exception $e) {
                     error_log($e->getMessage());
@@ -118,31 +150,10 @@ class SterilizerService
                 }
 
                 if (!$cycle) {
-                    throw new \Exception('Message could not be updated', 500);
+                    throw new \Exception('Cycle could not be updated', 500);
                 }
-
-
-                $sterilizer = SterilizeModel::where('id', $data['sterilizer_id'])->first();
-                $sterilizer->cycle_number = $data['cycle_number']; 
-                $sterilizer->save();
-
-                
-                $superUser = UserModel::where('id', \Auth::user()->id)->first();
-                $superUser->type_5 = intval($data['type_5']);
-                $superUser->save();
-            } 
+            }
         }
-        try {
-            $file = $this->generateTags($label_data, $printService);
-            $printFiles = $file[0];
-            $filepaths = $file[1];
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            error_log($e->getLine());
-            throw $e;
-        }
-
-        return ['printFiles' => $printFiles, 'filepaths' => $filepaths];
     }
 
     public function updateCycle ($user, $data )

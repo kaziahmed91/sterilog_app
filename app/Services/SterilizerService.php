@@ -93,7 +93,7 @@ class SterilizerService
                     'units_printed' => $value, 
                     'sterilizer' => $data['sterilizer'], 
                     'cleaner' => $this->getCleaner($id)['name'], 
-                    'user' => $user->first_name.' '.$user->last_name
+                    'user' => $user_id->first_name.' '.$user->last_name
                 ];
 
             }

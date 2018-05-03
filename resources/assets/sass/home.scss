@@ -7,6 +7,14 @@
     height:50px;
 }
 
+body {
+    overflow:hidden;
+}
+
+.hidden {
+    display:none !important;
+}
+
 .largeLogo{
     width:auto;
     height:auto;
@@ -64,19 +72,24 @@ body {
 
 // Soft User Login Button 
 
-  .centerContainer {
+.centerContainer {
     margin:0 auto;
     display:flex;
-    width: 300px;
-      p {
-          line-height:10px;
-          font-size:18px;
-      }
-      button {
-          width:100%;
-      }
-  }
-
+    justify-content:center;
+    width: 320px;
+    p {
+        line-height:20px;
+        font-size:25px;
+        margin-bottom:25px;
+    }
+    button {
+        width:100%;
+    }
+    .error {
+        font-size:18px;
+        color:red;
+    }
+}
 
 .buttons {
     display: flex;
@@ -114,15 +127,53 @@ body {
 //     transform: translateY(4px);
 //   }
 
-.passwordField {
-    display: Flex;
-    justify-content: space-evenly;
-    align-items:center;
-    margin:0 auto;
-    border: 1px solid #006494;
-    width:300px;
-    height:50px;
+.passwordDiv {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .passwordField {
+        display: Flex;
+        justify-content: space-evenly;
+        align-items:center; 
+        border: 1px solid #006494;
+        width:270px;
+        height:50px;
+        margin-right:10px;
+    }
+
+    .removeBtn {
+        display:flex;
+    
+        .removeButton {
+    
+            height:30px; 
+            width:30px;
+            background-color: #006494;
+    
+            span {
+                position:relative;
+                left:5px;
+                font-size:20px;
+                color:white;
+            }
+        }
+    
+        .triangle {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 15px 10px 15px 0;
+            border-color: transparent #006494 transparent transparent;
+        }
+    
+    }
 }
+
+
+
+
 .numberInput { 
     display: inline-block; 
     height: 25px; 

@@ -10707,6 +10707,14 @@ a.text-dark:focus {
   height: 50px;
 }
 
+body {
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
 .largeLogo {
   width: auto;
   height: auto;
@@ -10774,16 +10782,25 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 300px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 320px;
 }
 
 .centerContainer p {
-  line-height: 10px;
-  font-size: 18px;
+  line-height: 20px;
+  font-size: 25px;
+  margin-bottom: 25px;
 }
 
 .centerContainer button {
   width: 100%;
+}
+
+.centerContainer .error {
+  font-size: 18px;
+  color: red;
 }
 
 .buttons {
@@ -10822,7 +10839,19 @@ body {
   color: #FFFFFF;
 }
 
-.passwordField {
+.passwordDiv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.passwordDiv .passwordField {
   display: Flex;
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
@@ -10830,10 +10859,37 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: 0 auto;
   border: 1px solid #006494;
-  width: 300px;
+  width: 270px;
   height: 50px;
+  margin-right: 10px;
+}
+
+.passwordDiv .removeBtn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.passwordDiv .removeBtn .removeButton {
+  height: 30px;
+  width: 30px;
+  background-color: #006494;
+}
+
+.passwordDiv .removeBtn .removeButton span {
+  position: relative;
+  left: 5px;
+  font-size: 20px;
+  color: white;
+}
+
+.passwordDiv .removeBtn .triangle {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 15px 10px 15px 0;
+  border-color: transparent #006494 transparent transparent;
 }
 
 .numberInput {

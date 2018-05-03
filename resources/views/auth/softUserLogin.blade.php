@@ -1,29 +1,31 @@
 @extends('layouts.app')
 @section('content')
-    {{-- @include('includes.navbar')  --}}
-    {{-- @include('includes.errorbar') --}}
-    {{-- @include('includes.topbar') --}}
 
+<div class="col-sm-4 d-flex align-items-center">
+	<img  style="width:600px;" src="{{asset('images/Sterilog_Logo.png')}}" alt="">
+</div>
 
-<br><br>
 
 <div class="centerContainer">
-	<p>User Password</p>
-</div>
-
- 
-<div class="passwordField">
-	<span class="numberInput"></span>
-	<span class="numberInput"></span>
-	<span class="numberInput"></span>
-	<span class="numberInput"></span>
-	<span class="numberInput"></span>
-	<span class="numberInput"></span>
+	<p>User Login</p>
 </div>
 
 
 
+<div class="passwordDiv">
+	<div class="passwordField"> </div>
+
+	<div class="removeBtn">
+		<div class="triangle"></div>
+		<div class="removeButton">
+			<span>&#10006;</span>
+		</div>
+	</div>
+</div>
 <br>
+<div class="centerContainer ">
+	<p class='error hidden'> Invalid Pin! Please try again</p>
+</div>
 
 <div class="buttons">
 	<div class="button">1</div>
@@ -35,14 +37,14 @@
 	<div class="button">7</div>
 	<div class="button">8</div>
 	<div class="button">9</div>
-	{{-- <div class="button">&larr;</div> --}}
+	{{-- <div class="button">clear</div> --}}
 	<div class="button">0</div>
-	{{-- <div class="button">&rarr;</div> --}}
+	{{-- <div class="button">ok</div> --}}
 </div>
 
 <br>
 <div class="centerContainer">
-	<button type="submit" class= "btn btn-primary btn-lg">Login</button>
+	<button type="submit" id="login" class= "btn btn-primary btn-lg">Login</button>
 </div>
 
 	@section('script')  

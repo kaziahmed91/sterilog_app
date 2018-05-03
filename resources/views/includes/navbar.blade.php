@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
+{{-- <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             Sterilog
@@ -39,4 +39,4 @@
         </div>
 
     </div>
-</nav>
+</nav> --}}

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="col-sm-4 d-flex align-items-center">
-	<img  style="width:600px;" src="{{asset('images/Sterilog_Logo.png')}}" alt="">
+<div class="d-flex align-items-center">
+	<img  style="width:550px;" src="{{asset('images/Sterilog_Logo.png')}}" alt="">
 </div>
 
 
@@ -37,9 +37,7 @@
 	<div class="button">7</div>
 	<div class="button">8</div>
 	<div class="button">9</div>
-	{{-- <div class="button">clear</div> --}}
 	<div class="button">0</div>
-	{{-- <div class="button">ok</div> --}}
 </div>
 
 <br>

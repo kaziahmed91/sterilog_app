@@ -10769,3 +10769,84 @@ body {
   height: 100px;
 }
 
+.centerContainer {
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 300px;
+}
+
+.centerContainer p {
+  line-height: 10px;
+  font-size: 18px;
+}
+
+.centerContainer button {
+  width: 100%;
+}
+
+.buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: Helvetica;
+  font-weight: 400;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0 auto;
+  width: 300px;
+}
+
+.button {
+  border: 1px solid #006494;
+  border-radius: 50px;
+  color: #006494;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 24px;
+  height: 70px;
+  line-height: 70px;
+  margin: 10px;
+  text-align: center;
+  width: 70px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.button:hover {
+  background-color: #006494;
+  color: #FFFFFF;
+}
+
+.passwordField {
+  display: Flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0 auto;
+  border: 1px solid #006494;
+  width: 300px;
+  height: 50px;
+}
+
+.numberInput {
+  display: inline-block;
+  height: 25px;
+  background-color: #006494;
+  width: 25px;
+  border-radius: 50px;
+  font-size: 2em;
+}
+
+.asterisk {
+  font-size: 40px;
+  line-height: 70px;
+}
+

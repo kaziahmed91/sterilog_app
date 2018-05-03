@@ -9,6 +9,11 @@ use Session;
 
 class SoftUserController extends Controller
 {
+
+    public function index() 
+    {
+        return view('auth.softUserLogin');
+    }
     
     public function login (Request $request)
     {

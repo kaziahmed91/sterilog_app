@@ -66,6 +66,10 @@ Route::group(['prefix' => '', 'middleware' =>'auth' ], function () {
 
     Route::post('/user/login', 'SoftUserController@login' )->name('user.login');
     Route::get('/user/logout', 'SoftUserController@logout' )->name('user.logout');
+    Route::get('/user/login', 'SoftUserController@index');
+
+    
+    
     
 });
 

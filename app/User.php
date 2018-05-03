@@ -11,6 +11,7 @@ use App\Companies;
 class User extends Authenticatable
 {
     use Notifiable;
+    
 
     /**
      * The attributes that are mass assignable.
@@ -34,6 +35,7 @@ class User extends Authenticatable
 
 
     public function company() {
+        
         return $this->belongsTo(Companies::class, 'company_id','id');
     }
 

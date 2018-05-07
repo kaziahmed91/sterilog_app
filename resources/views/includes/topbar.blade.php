@@ -1,13 +1,8 @@
 <div class="p-1 topbar-row">
-
-    {{-- <div class="col-md-3">
-        <p>Sterilizer Load</p>
-    </div> --}}
-
     
-    <div class="col-sm-3  ">
+    <a href="{{ url('/') }}" class="col-sm-3  ">
         <img class='' style="width:300px"  src="{{asset('images/Sterilog_Logo.png')}}" alt="">
-    </div>    
+    </a>    
     
     <div class="col-sm-7 topbar-buttons">
 

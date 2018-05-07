@@ -33,7 +33,7 @@ Route::get('/', function () {
         $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
-Route::group(['prefix' => '', 'middleware' => ['auth', 'softUser'  ] ], function () {
+Route::group(['prefix' => '', 'middleware' => ['auth', 'softUser'] ], function () {
 
     
     Route::GET('/home', 'HomeController@index')->name('home');
@@ -63,7 +63,6 @@ Route::group(['prefix' => '', 'middleware' => ['auth', 'softUser'  ] ], function
     
 });
 
-//SoftUserLogin     
 Route::get('/user/login', 'SoftUserController@index')->name('user.login');
 Route::get('/user/logout', 'SoftUserController@logout' )->name('user.logout');
 Route::post('/user/login', 'SoftUserController@login' );

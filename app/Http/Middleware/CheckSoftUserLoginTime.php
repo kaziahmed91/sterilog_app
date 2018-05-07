@@ -16,13 +16,11 @@ class CheckSoftUserLoginTime
     public function handle($request, Closure $next)
     {
         $currentlyLoggedIn = $request->session()->get('softUser_userName');
+        
+        if (isset($currentlyLoggedIn) && !is_null($currentlyLoggedIn) ){
 
-        if (!is_null($currentlyLoggedIn) || $currentlyLoggedIn !== ''){
-            // Session::set('lastActive', date('U'));
             $allowedTimeInSeconds = 600;
-            
             $loggedInTime = $request->session()->get('softUser_startTime');
-
             $softUser_lastActive = $request->session()->get('softUser_lastActive');
 
             if ($loggedInTime && time() - $softUser_lastActive  > $allowedTimeInSeconds)
@@ -30,6 +28,14 @@ class CheckSoftUserLoginTime
                 $request->session()->forget(['softUser_fullName', 'softUser_userName', 'softUser_startTime']);
             }
             $request->session()->put('softUser_lastActive', time());
+            
+            return $next($request);
+
+        } else {
+            // $response = $next($request);
+            error_log('booyah');
+            return redirect('/user/login');
+            // return $next($request);
 
         }
 

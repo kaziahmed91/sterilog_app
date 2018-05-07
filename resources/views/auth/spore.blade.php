@@ -4,9 +4,12 @@
     @include('includes.errorbar')
     @include('includes.topbar')
 
-    <div class="container card border h-70 w-40">        
+    <div class=" border-top border-bottom p-2 mb-3">
+            <h1 class="text-lg-center">Spore Test</h1>
+        </div>
+    <div class="container h-70 w-40">        
 
-        <div class=" mx-4 mt-3  row header  border-bottom">
+        {{-- <div class=" mx-4 mt-3  row header  border-bottom">
             <p class='display-4 col'>Spore Test</p>
 
             <div class="row align-items-center mx-4 ">
@@ -17,8 +20,8 @@
                 </a>
             </div>
         </div>
-    
-    <div class="card-body">
+     --}}
+    <div class="">
 
         <div class="card">
             <div class="card-header">Active Tests</div>

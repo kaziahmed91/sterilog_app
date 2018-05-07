@@ -28,7 +28,7 @@ var privateKey, selectedPrinter;
                 config = qz.configs.create(printer);       // Create a default config for the found printer
                 console.log(config);
             }).catch(e => {
-                $('.printerStatus span').html('<b>Inctive!</b>')
+                $('.printerStatus span').html('<b>Inactive!</b>')
                 var message = "Printer Connection Error! : There was an issue connecting with the printer."
                 $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>', '<li>'+e.message+'</li>' );
                 console.log(e.message);

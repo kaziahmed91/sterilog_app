@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
     {{-- @include("includes.navbar") --}}
-    @include("includes.errorbar")
-    @include("includes.topbar")
+    {{-- @include("includes.errorbar") --}}
+    {{-- @include("includes.topbar") --}}
 
     <div class="container d-flex mt-5 ">
     

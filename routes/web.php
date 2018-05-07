@@ -33,9 +33,10 @@ Route::get('/', function () {
         $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
-Route::group(['prefix' => '', 'middleware' =>'auth' ], function () {
+Route::group(['prefix' => '', 'middleware' => ['auth', 'softUser'  ] ], function () {
 
     
+    Route::GET('/home', 'HomeController@index')->name('home');
     // Route::post('/sterilize', 'SterilizeController@sterilize');
     Route::post('/sterilize', 'SterilizeController@sterilize');
     Route::get('/sterilize', 'SterilizeController@index')->name('sterile');
@@ -48,7 +49,6 @@ Route::group(['prefix' => '', 'middleware' =>'auth' ], function () {
     
 
     Route::post('/updateCycle', 'SterilizeController@updateCycle');
-    
     Route::post('/signSignature', 'SterilizeController@signSignature');
 
 
@@ -60,18 +60,13 @@ Route::group(['prefix' => '', 'middleware' =>'auth' ], function () {
     Route::post('/spore/update/comment', 'SporeTestController@updateSporeComment');
     Route::get('/spore/log/filter', 'SporeTestController@filter');
     Route::post('/spore/log/filter', 'SporeTestController@filter');
-
-
-    Route::GET('/home', 'HomeController@index')->name('home');
-
-    Route::post('/user/login', 'SoftUserController@login' )->name('user.login');
-    Route::get('/user/logout', 'SoftUserController@logout' )->name('user.logout');
-    Route::get('/user/login', 'SoftUserController@index');
-
-    
-    
     
 });
+
+//SoftUserLogin     
+Route::get('/user/login', 'SoftUserController@index')->name('user.login');
+Route::get('/user/logout', 'SoftUserController@logout' )->name('user.logout');
+Route::post('/user/login', 'SoftUserController@login' );
 
 
 Route::group(['prefix' => 'settings', 'middleware' => 'auth'], function () {

@@ -1,11 +1,4 @@
-.is-invalid .select2-selection {
-    border-color: rgb(185, 74, 72) !important;
-}
-
-.menu-icon {
-    width:50px;
-    height:50px;
-}
+//Global Styles
 
 body {
     overflow:hidden;
@@ -13,6 +6,20 @@ body {
 
 .hidden {
     display:none !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: transparent !important;
+
+}
+
+.is-invalid .select2-selection {
+    border-color: rgb(185, 74, 72) !important;
+}
+
+.menu-icon {
+    width:50px;
+    height:50px;
 }
 
 .largeLogo{
@@ -37,20 +44,7 @@ body {
         }
     }
 }
-.topbar-buttons {
-    a {
-        img {
-            // padding:10px;
-            margin-right:10px;
-        }
-        width:200px;
-        border-radius: 30px;
-    }
-}
-.topbar-icon {
-    height:30px;
-    width:30px;
-}
+
 
 .topRight-icon {
     width:150px;
@@ -121,11 +115,6 @@ body {
     background-color: #006494;
     color: #FFFFFF;
   }
-//   .button:active {
-//     background-color: #3e8e41;
-//     box-shadow: 0 5px #666;
-//     transform: translateY(4px);
-//   }
 
 .passwordDiv {
 
@@ -141,6 +130,15 @@ body {
         width:270px;
         height:50px;
         margin-right:10px;
+    }
+
+    .numberInput {
+        width:15px;
+        height:15px;
+        border-radius: 50%;
+        background-color:black;
+        
+
     }
 
     .removeBtn {
@@ -169,20 +167,4 @@ body {
         }
     
     }
-}
-
-
-
-
-.numberInput { 
-    display: inline-block; 
-    height: 25px; 
-    background-color: #006494;
-    width: 25px; 
-    border-radius: 50px; 
-    font-size: 2em; 
-}
-.asterisk {
-    font-size:40px;
-    line-height:70px;
 }

@@ -5,9 +5,13 @@
     @include('includes.errorbar')
     @include('includes.topbar')
 
-    <div class="container card border h-70 w-40">        
+    <div class=" border-top border-bottom p-2 mb-3">
+        <h1 class="text-lg-center">Sterilizer Log</h1>
+    </div>
+
+    <div class="container h-70 w-40">        
         
-        <div class=" mx-4 mt-3  row header  border-bottom">
+        {{-- <div class=" mx-4 mt-3  row header  border-bottom">
             <p class='display-4 col'>Sterilizer Log</p>
             <div class="row align-items-center mx-4 ">
                 <span class="border mx-2" style="height:80px; position:relative;"></span>
@@ -17,17 +21,17 @@
                     Sterilize
                 </a>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="card-body">
+        <div class="">
 
 
         <form action="/sterilize/filter" role="form" method="get" class='row'>
             {{ csrf_field() }}
 
             <div class="form-group col-md-2">
-                <label for="daterange">Date Range</label>
-                <input type="text" class=' form-control' type="text" name="daterange">
+                <label for="daterange" >Date Range</label>
+                <input type="text" class=' form-control' type="text" name="daterange" data-disable-touch-keyboard>
             </div>
 
             <div class="form-group col-md-2">
@@ -45,7 +49,7 @@
 
             <div class="form-group col-md-2">
                 <label for="sterilizer">Sterilizer</label>
-                <select class="form-control" name="sterilizer">
+                <select class="form-control" name="sterilizer" placeholder="Select One">
                     <option value=''>Select One</option>
                     @foreach($sterilizers as $sterilizer)
                         <option value="{{ $sterilizer->sterilizer_name }}"> {{$sterilizer->sterilizer_name}}</option>
@@ -74,45 +78,46 @@
 
         </form>
 
-        
-        <div class="table-responsive">
-            <table class="table table-sm table-striped table-hover ">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col" width="90" >Date</th>
-                        <th scope="col" width="90">Time</th>
-                        <th scope="col" width="100">Entry Operator</th>
-                        <th scope="col" width="100">Sterilizer</th>
-                        <th scope="col" width='30'>Cycle #</th>
-                        <th scope="col" width="20">Package</th>
-                        <th scope="col" width="20"># of Packages</th>
-                        <th scope="col" width='50'>Type 1</th>
-                        <th scope="col" width='50'>Type 4</th>
-                        <th scope="col" width='50'>Type 5</th> 
-                        <th scope="col" width='50'>Parameters Verified</th>
-                        <th scope="col" width="150">Comment</th>
-                    </tr>
-                </thead>
+        <div class="card">
 
-                <tbody>
-                    @foreach($activeCycles as $cycle)
+            <div class="card-body table-responsive">
+                <table class="table table-sm table-striped table-hover ">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" width="90" >Date</th>
+                            <th scope="col" width="90">Time</th>
+                            <th scope="col" width="100">Entry Operator</th>
+                            <th scope="col" width="100">Sterilizer</th>
+                            <th scope="col" width='30'>Cycle #</th>
+                            <th scope="col" width="20">Package</th>
+                            <th scope="col" width="20"># of Packages</th>
+                            <th scope="col" width='50'>Type 1</th>
+                            <th scope="col" width='50'>Type 4</th>
+                            <th scope="col" width='50'>Type 5</th> 
+                            <th scope="col" width='50'>Parameters Verified</th>
+                            <th scope="col" width="150">Comment</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        @foreach($activeCycles as $cycle)
                         <tr class="pointer" 
                         data-cycleId="{{$cycle['id']}}"
                         data-type5 = "{{$cycle['type_5_testing']}}"
                         data-cycleCompleted = "{{!is_null($cycle['completed_by'])}}"
                         data-completedOn= 
-                            "{{ 
+                        "{{ 
                             Carbon\Carbon::parse($cycle['completed_on'])->format('d-m-Y ')
-                            }}"
+                        }}"
                         data-completedBy= 
-                            "{{$cycle['removalUser']['first_name'].' '.
+                        "{{$cycle['removalUser']['first_name'].' '.
                                 $cycle['removalUser']['last_name'] }}"
                         data-target="#activeSterilizeModal" 
                         data-toggle="modal" 
                         data-entryComment ="{{$cycle['comment']}}"
                         >
-                            <td class="ent_date">
-                                {{ 
+                        <td class="ent_date">
+                            {{ 
                                     Carbon\Carbon::parse($cycle['created_at'])->format('d-m-Y ')
                                 }}
                             </td>
@@ -167,9 +172,10 @@
                             </td>
                             <td class="comment text  w-150"><span>{{$cycle['comment']}}</span></td>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
         </div>
         <div class="mx-auto">

@@ -4,10 +4,12 @@
     @include('includes.errorbar')
     @include('includes.topbar')
 
+    <div class=" border-top border-bottom p-2 mb-3">
+        <h1 class="text-lg-center">Spore Log</h1>
+    </div>
+<div class="container h-70 w-40">        
 
-<div class="container card border h-70 w-40">        
-
-    <div class=" mx-4 mt-3  row header  border-bottom">
+    {{-- <div class=" mx-4 mt-3  row header  border-bottom">
 
         <p class='display-4 col'>Spore Logs</p>
 
@@ -21,9 +23,9 @@
                 Add Test
             </a>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="card-body">
+    <div class="">
 
         <form action="/spore/log/filter" role="form" method="get" class='row'>
             {{ csrf_field() }}
@@ -83,7 +85,7 @@
         </form>
 
         <div class="card">
-            <div class="card-header">All Tests</div>
+            {{-- <div class="card-header">All Tests</div> --}}
             <div class="card-body table-responsive">
                 <table class="table table-sm table-striped table-hover">
                     <thead>
@@ -93,8 +95,8 @@
                             <th width="90">Entry By</th>
                             <th width="90">Removed By</th>
                             <th width="90" >Sterilizer</th>
-                            <th width="20">Cycle#</th>
-                            <th width="20">Lot#</th>
+                            <th width="30">Cycle#</th>
+                            <th width="30">Lot#</th>
                             <th width="40">Control Vial</th>
                             <th width="40">Test Vial</th>
                             <th width="130">Initial Comment</th>

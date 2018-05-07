@@ -27,7 +27,7 @@ $(document).ready(function(){
             var response = res.response; 
             console.log(response)
             if (response == 'success' ) {
-                window.location = 'home';
+                window.location.href = '/home';
             } else if (response == 'error'){
 
             }

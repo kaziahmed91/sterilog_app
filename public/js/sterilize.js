@@ -16,6 +16,10 @@ $(document).ready(function() {
             console.log("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
         }
     );
+    $('input[name="daterange"]').val('');
+    $('input[name="daterange"]').attr("placeholder","Select Range");
+    $('[data-disable-touch-keyboard]').attr('readonly', 'readonly');
+
     // Initialize dropdown for sterilization pages, allow additions to input field beyond 30
     $('.sterilizeNumberDropdown').select2({
         theme: "bootstrap",
@@ -45,6 +49,7 @@ $(document).ready(function() {
     $('.sterilizerSelect').select2({
         theme: "bootstrap",
         placeholder: 'Choose a Sterilizer',
+        dropdownCssClass: "sterilizer"
     })
 
     //Updates cycle number when user changes sterilzier

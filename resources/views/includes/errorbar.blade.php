@@ -1,6 +1,6 @@
 
 <div class="alert alert-danger {{ count($errors) > 0 ? '' : 'hidden'  }}" role="alert">
-    <button type="button" class="close alert-close" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <button type="button"  class="close alert-close" aria-label="Close"><span aria-hidden="true">×</span></button>
 
     <div class="m-auto d-flex justify-content-center">
         <strong>Errors:</strong>
@@ -14,7 +14,7 @@
 
 
 <div class="successMsg m-auto  alert alert-success {{ Session::has('success') ? '' : 'hidden' }}" role="alert">
-    <button type="button" class="close alert-close" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <button type="button" style="font-size: 50px;" class="close alert-close" aria-label="Close"><span aria-hidden="true">×</span></button>
 
     <div class=' m-auto d-flex justify-content-center'>
         <strong>Success:</strong>
@@ -27,7 +27,7 @@
 
 
 <div class="errorMsg alert alert-danger {{ Session::has('error') ? '' : 'hidden' }} " role="alert">
-    <button type="button" class="close alert-close" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <button type="button" style="font-size: 50px;" class="close alert-close" aria-label="Close"><span aria-hidden="true">×</span></button>
 
     <div class="m-auto d-flex justify-content-center">
         <strong>Errors:</strong> 

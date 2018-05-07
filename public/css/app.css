@@ -10698,6 +10698,19 @@ a.text-dark:focus {
   overflow-x: auto;
 }
 
+body {
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: transparent !important;
+}
+
 .is-invalid .select2-selection {
   border-color: #b94a48 !important;
 }
@@ -10705,14 +10718,6 @@ a.text-dark:focus {
 .menu-icon {
   width: 50px;
   height: 50px;
-}
-
-body {
-  overflow: hidden;
-}
-
-.hidden {
-  display: none !important;
 }
 
 .largeLogo {
@@ -10739,20 +10744,6 @@ body {
 .menu-button div p {
   font-size: 15px;
   line-height: 25px;
-}
-
-.topbar-buttons a {
-  width: 200px;
-  border-radius: 30px;
-}
-
-.topbar-buttons a img {
-  margin-right: 10px;
-}
-
-.topbar-icon {
-  height: 30px;
-  width: 30px;
 }
 
 .topRight-icon {
@@ -10865,6 +10856,13 @@ body {
   margin-right: 10px;
 }
 
+.passwordDiv .numberInput {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: black;
+}
+
 .passwordDiv .removeBtn {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -10892,17 +10890,54 @@ body {
   border-color: transparent #006494 transparent transparent;
 }
 
-.numberInput {
-  display: inline-block;
-  height: 25px;
-  background-color: #006494;
-  width: 25px;
-  border-radius: 50px;
-  font-size: 2em;
+.topbar-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: baseline;
+      -ms-flex-pack: baseline;
+          justify-content: baseline;
 }
 
-.asterisk {
-  font-size: 40px;
-  line-height: 70px;
+.topbar-row p {
+  font-size: 1.5em;
+  line-height: 30px;
+}
+
+.topbar-row .topbar-buttons a {
+  width: 200px;
+  border-radius: 30px;
+}
+
+.topbar-row .topbar-buttons a img {
+  margin-right: 10px;
+}
+
+.topbar-icon {
+  height: 30px;
+  width: 30px;
+}
+
+.sterilizer + .select2-selection__rendered {
+  line-height: 35px !important;
+}
+
+.sterilizer + .select2-container--bootstrap .select2-selection--single {
+  height: 45px !important;
+  line-height: 2 !important;
+}
+
+.alert {
+  position: absolute !important;
+  width: 100% !important;
+  z-index: 1 !important;
+  opacity: 0.95 !important;
 }
 

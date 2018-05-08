@@ -63,10 +63,12 @@ class SporeTestController extends Controller
 
         $sterilizers = SterilizerModel::where('company_id', \Auth::user()->company_id)->whereNull('date_deleted')->get();
         $cycle = CyclesModel::where('company_id', \Auth::user()->company_id)->whereNull('deleted_at')->first();
-        $cycle_number = $cycle ? $cycle->cycle_number : 0;        
+        $cycle_number = $cycle ? $cycle->cycle_number : 0;
+        $lot = SporeTestModel::where('company_id', \Auth::user()->company_id)->orderBy('id', 'desc')->first()['lot_number'];
+        // error_log($lot['lot_number']);
         $activeTests = $this->getActiveTests();
 
-        return view('auth.spore', ['activeTests' => $activeTests, 'sterilizers' => $sterilizers, 'cycle_number' => $cycle_number]);
+        return view('auth.spore', ['activeTests' => $activeTests, 'sterilizers' => $sterilizers, 'cycle_number' => $cycle_number, 'lot_number' => $lot]);
     }
 
     public function filter (Request $request) 

@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-    @include('includes.navbar') 
     @include('includes.errorbar')
     @include('includes.topbar')
 
@@ -9,21 +8,7 @@
     </div>
 <div class="container h-70 w-40">        
 
-    {{-- <div class=" mx-4 mt-3  row header  border-bottom">
 
-        <p class='display-4 col'>Spore Logs</p>
-
-        <div class="row align-items-center mx-4 ">
-
-
-            <span class="border mx-2" style="height:80px; position:relative;"></span>
-
-            <a href="{{ route('spore') }}" class="ml-5 btn btn-primary topRight-icon btn-lg">
-                <img class="tinyIcon" src="{{asset('icons/spore_icon.svg')}}" alt="">
-                Add Test
-            </a>
-        </div>
-    </div> --}}
 
     <div class="">
 
@@ -32,13 +17,13 @@
 
             <div class="form-group col-md-2">
                 <label for="daterange">Date Range</label>
-                <input type="text" class=' form-control' type="text" name="daterange">
+                <input type="text" class=' form-control' type="text" name="daterange" data-disable-touch-keyboard>
             </div>
 
             <div class="form-group col-md-2">
                 <label for="entry_operator">Entry Operator</label>
                 <select class="form-control" name="entry_operator" >
-                    {{-- <option value=''>Select One</option> --}}
+                    <option value=''>Select One</option>
                     @foreach($operators as $operator)
                         <option 
                             value="{{$operator->id}}"> 
@@ -90,25 +75,24 @@
                 <table class="table table-sm table-striped table-hover">
                     <thead>
                         <tr>
-                            <th width="90">Entry Date</th>
-                            <th width="90">Removal Date</th>
-                            <th width="90">Entry By</th>
-                            <th width="90">Removed By</th>
-                            <th width="90" >Sterilizer</th>
-                            <th width="30">Cycle#</th>
-                            <th width="30">Lot#</th>
-                            <th width="40">Control Vial</th>
-                            <th width="40">Test Vial</th>
-                            <th width="130">Initial Comment</th>
-                            <th width="130">Additional Comment</th>
+                            <th scope="col">Entry Date</th>
+                            <th scope="col">Removal Date</th>
+                            <th scope="col">Entry By</th>
+                            <th scope="col">Removed By</th>
+                            <th scope="col" >Sterilizer</th>
+                            <th scope="col">Cycle#</th>
+                            <th scope="col">Lot#</th>
+                            <th scope="col">Control Vial</th>
+                            <th scope="col">Test Vial</th>
+                            <th  scope="col">Initial Comment</th>
+                            <th scope="col">Additional Comment</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         @foreach($tests as $test)
-                            <tr class="pointer" data-target="{{
-                                is_null($test['removal_at']) ? "#activeTestModal" : "#completedTestModal"
-                                }}"
+                            <tr class="pointer" 
+                                data-target="{{is_null($test['removal_at']) ? "#activeTestModal" : "#completedTestModal"}}"
                                 data-testId="{{$test['id']}}" data-toggle="modal" >
                                 <td class="entryDt">
                                     {{ 
@@ -124,18 +108,26 @@
                                 <td class="sterilizer">{{$test['sterilizer']['sterilizer_name']}}</td>
                                 <td class="cycle">{{$test['entry_cycle_number']}}</td>
                                 <td class="lot">{{$test['lot_number']}}</td>
-                                <td class="control">{{$test['control_sterile'] == 0 ? 'Unsterile' : 'Sterile'}}</td>
-                                <td class="test">{{$test['test_sterile'] == 0 ? 'Unsterile' : 'Sterile'}}</td>
+                                <td class="control">
+                                    @if( !is_null($test['removal_at']) )
+                                        {{$test['control_sterile'] == 0  && is_null($test['control_sterile'])  ? 'Unsterile' : 'Sterile'}}
+                                    @endif
+                                </td>
+                                <td class="test">
+                                    @if( !is_null($test['removal_at']) )
+                                        {{$test['test_sterile'] == 0 ? 'Unsterile' : 'Sterile'}}
+                                    @endif    
+                                </td>
                                 <td class="entComm text "><span>{{$test['initial_comments']}}</span></td>
                                 <td class="removComm text"> <span>{{$test['additional_comments']}}</span></td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-            </div>
                 <div class="mx-auto">
                 {{ $tests->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}
                 </div>
+            </div>
         </div>
     </div>
 </div>
@@ -221,7 +213,6 @@
 </div>
 
     @include('includes.updateSporeTest-modal')
-    @include('includes.login-modal')
 
     @section('script')  
         <script src="{{asset('js/spore-test.js')}}"></script>

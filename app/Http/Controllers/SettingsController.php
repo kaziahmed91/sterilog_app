@@ -37,7 +37,7 @@ class SettingsController extends Controller
         return view('auth.settings.cleaners', ['route' => 'cleaners', 'cleaners' => $cleaners ]);
     }
 
-    public function getUserView () 
+    public function getUsersView () 
     {
         $company_id = \Auth::user()->company_id;
         $users = SoftUserModel::where('company_id', $company_id)->get();
@@ -45,6 +45,15 @@ class SettingsController extends Controller
         return view('auth.settings.user', ['users' => $users, 'route' => 'user']);
 
     }
+
+    public function getUserView (Request $request, $id ) 
+    {
+        $company_id = \Auth::user()->company_id;
+        $user = SoftUserModel::where('id', $id)->first();
+
+        return view('auth.settings.user-edit', ['user' => $user, 'route' => 'user']);
+    }
+
 
     public function getEquiptmentView ()
     {           
@@ -78,6 +87,21 @@ class SettingsController extends Controller
 
     }
 
+    public function removeCleaner (Request $request)
+    {
+        $data = $request->all();
+        $cleanerId = $data['cleanerId'];
+        $state = $data['newState'];
+
+        $cleaner = CleanersModel::where('id', $cleanerId)->first();
+        if ($state == '1') {
+            $cleaner->date_deleted = Carbon::now();
+        } else if ($state == '0' ){
+            $cleaner->date_deleted = null;
+        }
+        $cleaner->save();
+        return  response()->json(['response' => 'success'], 200);
+    } 
 
     public function editPrinter (Request $request)
     {
@@ -109,7 +133,7 @@ class SettingsController extends Controller
 
         $validator = Validator::make($data, [
             'sterilizer_name' => 'required|string',
-            'manufacturer'  => 'string',
+            // 'manufacturer'  => 'string',
         ]);
 
         $errors = $validator->errors()->toArray();
@@ -121,8 +145,6 @@ class SettingsController extends Controller
         $sterilizer = SterilizerModel::create([
             'company_id' => $company_id,
             'sterilizer_name' => $data['sterilizer_name'], 
-            'manufacturer' => $data['manufacturer'],
-            'serial' => $data['serial'],
             'added_by' => \Auth::user()->id , 
             'created_at' => Carbon::now(), 
             'cycle_number' => 0
@@ -138,7 +160,23 @@ class SettingsController extends Controller
         return back();
     }
 
-    public function addUser( Request $request )
+    public function removeSterilizer (Request $request)
+    {
+        $data = $request->all();
+        $sterilizerId = $data['sterilizerId'];
+        $state = $data['newState'];
+
+        $sterilizer = SterilizerModel::where('id', $sterilizerId)->first();
+        if ($state == '1') {
+            $sterilizer->date_deleted = Carbon::now();
+        } else if ($state == '0' ){
+            $sterilizer->date_deleted = null;
+        }
+        $sterilizer->save();
+        return  response()->json(['response' => 'success'], 200);
+    } 
+
+    public function addSoftUser( Request $request )
     {   
         $data  = $request->all();
 
@@ -172,6 +210,45 @@ class SettingsController extends Controller
         return back();
     }
 
+    public function editSoftUser(Request $request, $id)
+    {
+        $data  = $request->all();
+
+        $validator = Validator::make($data, [
+            'first_name' => 'required|string',
+            'last_name'  => 'required|string',
+            'user_name' => 'required',
+        ]);
+
+        $errors = $validator->errors()->toArray();
+
+        $auth_confirmed = password_verify($data['system_password'], \Auth::user()->password);
+        if (!$auth_confirmed) {
+            Session::flash('error', 'Incorrect System Password!');
+            return redirect()->back()->withErrors($validator)->withInput();;
+        }
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $userExists = SoftUserModel::where('company_id', \Auth::user()->company_id)->where('user_name', $data['user_name'])->first();
+        if ($userExists && $id != $userExists->id) {
+            Session::flash('error', 'Username already exists!');
+            return redirect()->back()->withInput();
+        }
+        if ( !SoftUserModel::where('id', $id)->update([
+            'user_name' => $data['user_name'], 
+            'first_name' => $data['first_name'], 
+            'last_name' => $data['last_name'], 
+            ])) 
+        {
+            Session::flash('error', 'There was an error updating the password!  ');
+            return redirect()->back()->withInput();
+        }
+        Session::flash('success', 'Password as been updated!');
+        return back();
+    }
+
     public function changeUserPassword(Request $request)
     {
         $data = $request->all();
@@ -199,12 +276,12 @@ class SettingsController extends Controller
 
     }
 
-    public function changeSoftUserPassword(Request $request)
+    public function changeSoftUserPassword(Request $request, $id)
     {   
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'new_password' => 'required|numeric|digits_between:4,6'
+            'new_password' => 'required|numeric|digits_between:4,6|unique:soft_user,password'
         ]);
 
         $errors = $validator->errors()->toArray();
@@ -226,8 +303,7 @@ class SettingsController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-
-        if ( !SoftUserModel::where('id', $data['user_id'])->update(['password' => $data['new_password']]) ) {
+        if ( !SoftUserModel::where('id', $id)->update(['password' => $data['new_password']]) ) {
             Session::flash('error', 'There was an error updating the password!  ');
             return redirect()->back();
         }

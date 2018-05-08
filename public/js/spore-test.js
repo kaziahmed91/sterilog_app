@@ -16,6 +16,9 @@ $(document).ready(function(){
             console.log("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
         }
     );
+    $('input[name="daterange"]').val('');
+    $('input[name="daterange"]').attr("placeholder","Select Range");
+    $('[data-disable-touch-keyboard]').attr('readonly', 'readonly');
 
     $('#sterilizer').select2({
         theme: "bootstrap",
@@ -44,7 +47,12 @@ $(document).ready(function(){
             'comment': comment, 
             'lot_number' : lot_number
         };
-        validate(cycleNumber, lot_number);
+        if (cycleNumber === '' || lot_number === ''){
+            var message = 'Cycle number & lot number cannot be empty!';
+            $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>');
+            return false;
+        }
+        console.log(formData)
 
             // var clone =  $("api_tableRow .pointer.clone")
             // clone.removeClass('clone'); 
@@ -54,7 +62,7 @@ $(document).ready(function(){
             // clone.find('.sterilizer').text('sterile')
             // console.log(clone.html())
             // clone.appendTo('tablestbody');
-
+        console.log('posting')
         $.post('/spore/new', formData, function(res) {
             var response = res.response;
             console.log('posted ',response)
@@ -91,14 +99,7 @@ $(document).ready(function(){
                 console.log(error.exception, error.message, error.line, error.file); 
             });
         })
-        
-    function validate (cycleNumber, lot_number) {
-        if (cycleNumber == '' || lot_number == ''){
-            var message = 'Cycle number & lot number cannot be empty!';
-            $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
-        }
-        return false;
-    }
+
 
     $('#updateSporeTest').click(function() {
         var control_sterile = $('#control_sterile').is(':checked') ? 1 : 0;
@@ -164,6 +165,8 @@ $(document).ready(function(){
         $('#control').text(control);
         $('#test').text(test);
 
+        clicked_row .addClass('highlightSelectedRow')
+
     });
 
     $('#updateComments').click(function() {
@@ -190,9 +193,15 @@ $(document).ready(function(){
 
     $('#completedTestModal').on('hidden.bs.modal', function (e) {
         $(".switch-input").prop('checked', false);
-    });
+        clicked_row.removeClass('highlightSelectedRow');
 
+    });
+    $('#activeTestModal').on('hidden.bs.modal', function (e) {
+        clicked_row.removeClass('highlightSelectedRow');
+    });
+    
     $('#addSporeTestModal').on('hidden.bs.modal', function (e) {
         $(".switch-input").prop('checked', false);
+        clicked_row.removeClass('highlightSelectedRow');
     });
 });

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('includes.navbar')
     @include('includes.errorbar')
     @include('includes.topbar')
 
@@ -327,10 +326,6 @@
         </div>
     </div>
 </div>
-
-
-
-@include('includes.login-modal')
 
     @section('script')
         <script src="{{asset('js/sterilize.js')}}"></script>

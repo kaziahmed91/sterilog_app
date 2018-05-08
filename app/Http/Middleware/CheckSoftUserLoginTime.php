@@ -32,7 +32,7 @@ class CheckSoftUserLoginTime
             return $next($request);
 
         } else {
-            error_log('booyah');
+            error_log('redirecting');
             return redirect('/user/login');
         }
 

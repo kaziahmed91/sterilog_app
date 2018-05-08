@@ -4,7 +4,7 @@
         <img class='' style="width:300px"  src="{{asset('images/Sterilog_Logo.png')}}" alt="">
     </a>    
     
-    <div class="col-sm-7 topbar-buttons">
+    <div class="col-sm-6 topbar-buttons">
 
 
         @if(Route::current()->getName() == 'sterile' || Route::current()->getName() == 'sterile.logs') 
@@ -25,24 +25,20 @@
                 Sterilize Log</a>
         @endif
 
-        {{-- <a href="{{ route('sterile.logs') }}" class="ml-5 btn btn-primary topRight-icon btn-lg">
-                <img class="tinyIcon" src="{{asset('icons/log_icon.png')}}" alt="">
-                View Log
-        </a>  --}}
     </div>
 
 
-    <div class="col-sm-2  ">
-        {{-- @if(Session::has('softUser_fullName')) --}}
+    <div class="col-sm-3">
+        @if(Session::has('softUser_fullName'))
         {{-- <div class="d-flex align-items-center  justify-content-between"> --}}
         <div class="d-flex  justify-content-center">
-        {{-- Currently: Logged in :<strong>{{ Session::get('softUser_fullName') }}</strong> --}}
+        Currently: Logged in :<strong>{{ Session::get('softUser_fullName') }}</strong>
             <a href="{{ route('user.logout') }}"> 
                 <button class="btn btn-lg  btn-outline-warning"  value="">Logout
                 </button>
             </a>
         </div>
-        {{-- @endif  --}}
+        @endif 
         {{-- @if(!Session::has('softUser_fullName'))
         <div class="d-flex justify-content-end">
             <button name="" data-toggle="modal" data-target="#loginModal" class="btn btn-lg  btn-outline-success" type="button" value="">Login</button>

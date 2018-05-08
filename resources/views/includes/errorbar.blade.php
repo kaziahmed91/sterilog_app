@@ -1,5 +1,5 @@
 
-<div class="alert alert-danger {{ count($errors) > 0 ? '' : 'hidden'  }}" role="alert">
+<div class="alert alert-danger {{ count($errors) > 0 ? '' : 'hidden'  }} fullWidthAlert" role="alert">
     <button type="button"  class="close alert-close" aria-label="Close"><span aria-hidden="true">×</span></button>
 
     <div class="m-auto d-flex justify-content-center">
@@ -13,7 +13,7 @@
 </div>
 
 
-<div class="successMsg m-auto  alert alert-success {{ Session::has('success') ? '' : 'hidden' }}" role="alert">
+<div class="successMsg m-auto  alert alert-success {{ Session::has('success') ? '' : 'hidden' }} fullWidthAlert" role="alert">
     <button type="button" style="font-size: 50px;" class="close alert-close" aria-label="Close"><span aria-hidden="true">×</span></button>
 
     <div class=' m-auto d-flex justify-content-center'>
@@ -26,7 +26,7 @@
 </div>
 
 
-<div class="errorMsg alert alert-danger {{ Session::has('error') ? '' : 'hidden' }} " role="alert">
+<div class="errorMsg alert alert-danger {{ Session::has('error') ? '' : 'hidden' }} fullWidthAlert " role="alert">
     <button type="button" style="font-size: 50px;" class="close alert-close" aria-label="Close"><span aria-hidden="true">×</span></button>
 
     <div class="m-auto d-flex justify-content-center">
@@ -40,16 +40,5 @@
 
 
 <script>
-// window.setTimeout(function () {
-//     // if ( $(".alert, .successMsg, .errorMsg").is(':visible') ) {
-//         $(".alert, .successMsg, .errorMsg").fadeTo(2000, 500).slideUp(500, function(){
-//             if ($(this).is(':visible')) {
-//                 $(this).alert('close');
 
-//             }
-//         });
-//     // }
-// }, 5000);
-
-3
 </script>

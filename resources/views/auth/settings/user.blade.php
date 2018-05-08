@@ -4,7 +4,6 @@
     <div class="col-sm-9 border ">
         <p class="settingsHeader border-bottom">User Settings</p>
 
-
         <div id="accordion" class="my-4">
             
             <div class="card">
@@ -16,7 +15,7 @@
                 </h5>
             </div>
             
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             @foreach($users as $user)
@@ -30,6 +29,7 @@
                                     <span class="col-sm-4"><strong>Date Added</strong>
                                         {{Carbon\Carbon::parse($user['entry_at'])->format('d-m-Y ')}}
                                     </span>
+                                    <a href="{{route('settings.user', ['id' => $user->id] )}}" class="col-sm-2 " style="color: #3097D1">Edit</a> 
                                 </li>
                             @endforeach
                         </ul>
@@ -75,52 +75,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-header" id="headingThre">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Forgotten Password
-                    </button>
-                </h5>
-                </div>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                    <div class="card-body">
-                        <form action="{{ route('settings.user.password') }}" method="POST">
-                            {{ csrf_field() }}
-
-                            <div class="form-group">
-                                <label for="user_name">Select User</label><br>
-                                <select class="userNames" name="user_id">
-                                    @foreach($users as $user)
-                                        <option class=""  value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option> 
-                                    @endforeach
-                                </select>
-                            </div>
-                   
-                            <div class="form-group ">
-                                <label for="system_password">System Password</label>
-                                <input type="password" name="system_password" class='form-control '>
-                            </div>
-
-                            <div class="form-group ">
-                                <label for="new_password">New Password</label>
-                                <input type="password" name="new_password" class='form-control '>
-                            </div>
-
-                            <div class="form-group ">
-                                <label for="confirm_password">Confirm Password</label>
-                                <input type="password" name="confirm_password" class='form-control '>
-                            </div>
-
-
-                            
-                            <button class="btn mx-auto btn-submit btn-primary" type='submit'>Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
 
         </div>
     </div>

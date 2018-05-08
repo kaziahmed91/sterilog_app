@@ -10695,7 +10695,32 @@ a.text-dark:focus {
 }
 
 .table-responsive {
-  overflow-x: auto;
+  overflow-x: scroll;
+}
+
+table thead,
+table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table tbody {
+  display: block;
+  max-height: 350px;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
+.highlightSelectedRow {
+  border: 2px solid #006494;
+  width: 99%;
+}
+
+svg {
+  top: -30px;
+  left: 10px;
+  position: relative;
 }
 
 body {
@@ -10768,14 +10793,22 @@ body {
   height: 100px;
 }
 
-.centerContainer {
-  margin: 0 auto;
+.loginContainer {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  top: -80px;
+}
+
+.centerContainer {
   width: 320px;
 }
 
@@ -10794,6 +10827,16 @@ body {
   color: red;
 }
 
+.centerContainer .forgottenPin {
+  position: relative;
+  left: 75px;
+  top: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 15px;
+}
+
 .buttons {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -10805,7 +10848,6 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  margin: 0 auto;
   width: 300px;
 }
 
@@ -10934,7 +10976,7 @@ body {
   line-height: 2 !important;
 }
 
-.alert {
+.fullWidthAlert {
   position: absolute !important;
   width: 100% !important;
   z-index: 1 !important;

@@ -2,6 +2,7 @@
 
 body {
     overflow:hidden;
+    // overflow: 
 }
 
 .hidden {
@@ -65,11 +66,18 @@ body {
 
 
 // Soft User Login Button 
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    position:relative;
+    top:-80px;
+}
 
 .centerContainer {
-    margin:0 auto;
-    display:flex;
-    justify-content:center;
+    // margin:0 auto;
+    // display:flex;
+    // justify-content:center;
     width: 320px;
     p {
         line-height:20px;
@@ -83,6 +91,14 @@ body {
         font-size:18px;
         color:red;
     }
+
+    .forgottenPin {
+        position:relative;
+        left:75px;
+        top:10px;
+        align-items: center;
+        font-size:15px;
+    }
 }
 
 .buttons {
@@ -91,7 +107,7 @@ body {
     font-weight: 400;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 0 auto;
+    // margin: 0 auto;
     width: 300px;
   }
   

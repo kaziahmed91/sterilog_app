@@ -1,26 +1,14 @@
 @extends('layouts.app')
 @section('content')
-    @include('includes.navbar') 
     @include('includes.errorbar')
-    @include('includes.topbar')
+    @include('includes.topbar') 
 
     <div class=" border-top border-bottom p-2 mb-3">
             <h1 class="text-lg-center">Spore Test</h1>
         </div>
     <div class="container h-70 w-40">        
 
-        {{-- <div class=" mx-4 mt-3  row header  border-bottom">
-            <p class='display-4 col'>Spore Test</p>
 
-            <div class="row align-items-center mx-4 ">
-                <span class="border mx-2" style="height:80px; position:relative;"></span>
-                <a href="{{ route('spore.logs') }}" class="ml-5 btn btn-primary topRight-icon btn-lg">
-                    <img class="tinyIcon" src="{{asset('icons/sterilizer_icon.png')}}" alt="">
-                    View Logs
-                </a>
-            </div>
-        </div>
-     --}}
     <div class="">
 
         <div class="card">
@@ -77,10 +65,6 @@
                     </tbody>
                 </table>    
                 
-
-            {{-- <div class="mx-auto">
-                {{ $activeTests->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}
-            </div> --}}
             </div>
         </div>
         <br>
@@ -123,12 +107,11 @@
 
                     <div class="form-group">
                         <label for="entry_cycle_number" class=''>Cycle Number</label>
-                        <input type="number" disabled class="form-control" value="" name="" id="cycle_number" aria-describedby="helpId" placeholder="Cycle Number">
+                        <input type="number"  class="form-control" value="" name="" id="cycle_number" aria-describedby="helpId" placeholder="Cycle Number">
                     </div>
-
                     <div class="form-group">
                         <label for="lot_number">Lot Number</label>
-                        <input type="number" class="form-control" name="" id="lot_number" aria-describedby="helpId" placeholder="Lot Number">
+                        <input type="number" class="form-control"  value='{{$lot_number}}' name="" id="lot_number" aria-describedby="helpId" placeholder="Lot Number">
                     </div>
 
                     <div class="form-group">
@@ -148,7 +131,6 @@
     </div>
 </div>
 
-@include('includes.login-modal')
     @section('script')  
         <script src="{{asset('js/spore-test.js')}}"></script>
     @endsection

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('includes.navbar')
     @include('includes.errorbar')
     @include('includes.topbar')
     
@@ -130,7 +129,6 @@
             </div>
             
     </div>
-    @include('includes.login-modal')
 
 
     @section('script')

@@ -10,6 +10,12 @@ use Session;
 class SoftUserController extends Controller
 {
 
+    public function __construct() 
+    {
+        // $this->middleware('auth');
+
+    }
+
     public function index() 
     {
         return view('auth.softUserLogin');
@@ -19,16 +25,16 @@ class SoftUserController extends Controller
     {
         $data =$request->all(); 
 
-        $validator = Validator::make($data, [
-            // 'user_name' => 'required',
-            'password' => 'required|numeric|digits_between:4,6'
-        ]);
+        // $validator = Validator::make($data, [
+        //     // 'user_name' => 'required',
+        //     'password' => 'required|numeric|digits_between:4,6'
+        // ]);
         
-        $errors = $validator->errors()->toArray();
+        // $errors = $validator->errors()->toArray();
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator)->withInput();
+        // }
 
         $currentlyLoggedIn = $request->session()->get('softUser_userName');
 

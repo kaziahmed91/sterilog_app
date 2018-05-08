@@ -18,19 +18,19 @@ Route::get('/', function () {
 
 // Auth::routes() -> ;
 
-        $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
-        $this->post('login', 'Auth\LoginController@login');
-        $this->post('logout', 'Auth\LoginController@logout')->name('logout');
+    $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+    $this->post('login', 'Auth\LoginController@login');
+    $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
-        // Registration Routes...
-        $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-        $this->post('register', 'Auth\RegisterController@register');
+    // Registration Routes...
+    $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    $this->post('register', 'Auth\RegisterController@register');
 
-        // Password Reset Routes...
-        $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-        $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-        $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-        $this->post('password/reset', 'Auth\ResetPasswordController@reset');
+    // Password Reset Routes...
+    $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
 Route::group(['prefix' => '', 'middleware' => ['auth', 'softUser'] ], function () {
@@ -63,37 +63,39 @@ Route::group(['prefix' => '', 'middleware' => ['auth', 'softUser'] ], function (
     
 });
 
-Route::get('/user/login', 'SoftUserController@index')->name('user.login');
-Route::get('/user/logout', 'SoftUserController@logout' )->name('user.logout');
-Route::post('/user/login', 'SoftUserController@login' );
+Route::group(['prefix' => '', 'middleware' => ['auth'] ], function () {
+    Route::get('/user/login', 'SoftUserController@index')->name('user.login');
+    Route::get('/user/logout', 'SoftUserController@logout' )->name('user.logout');
+    Route::post('/user/login', 'SoftUserController@login' );
+});
+
 
 
 Route::group(['prefix' => 'settings', 'middleware' => 'auth'], function () {
 
     Route::get('/', function(){
-        return redirect()->route('settings.user');
+        return redirect()->route('settings.users');
     });
-    Route::get('/user','SettingsController@getUserView')->name('settings.user');
+
+    Route::get('/users','SettingsController@getUsersView')->name('settings.users');
+    Route::get('/user/{id}','SettingsController@getUserView')->name('settings.user');
+    Route::post('/user/{id}/edit', 'SettingsController@editSoftUser')->name('settings.user.edit');
+    Route::post('/user/{id}/password','SettingsController@changeSoftUserPassword' )->name('settings.user.password');
+
     Route::get('/equiptment','SettingsController@getEquiptmentView')->name('settings.equiptment');
     Route::get('/cleaners','SettingsController@getCleanersView')->name('settings.cleaners');
     Route::get('/company','SettingsController@getCompanyView')->name('settings.company');
     
     Route::post('/register/equiptment', 'SettingsController@addSterilizer');
+    Route::post('/register/equiptment/remove', 'SettingsController@removeSterilizer');
     Route::post('/register/cleaners', 'SettingsController@addCleaner');
+    Route::post('/register/cleaners/remove', 'SettingsController@removeCleaner');
+    
     Route::post('/register/company/printer', 'SettingsController@editPrinter')->name('settings.printer.edit');
-    Route::post('/register/user','SettingsController@addUser' )->name('settings.user.register');
-    Route::post('/register/user/password','SettingsController@changeSoftUserPassword' )->name('settings.user.password');
+    Route::post('/register/user','SettingsController@addSoftUser' )->name('settings.user.register');
+
+    // Route::post('/register/user/edit/{id}','SettingsController@addUser' )->name('settings.user.add');
 });
 
 Route::GET('/company_register', 'CompaniesController@register')->name('company_register');
 Route::POST('/company_register', 'CompaniesController@registerCompany')->name('company');
-
-
-
-
-// Route::GET('login', 'Admin\LoginController@showLoginForm')->name('admin.login');
-// Route::POST('post', 'Admin\LoginController@login');
-// ROUTE::POST('admin-password/email', 'Admin\ForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
-// ROUTE::GET('admin-password/reset', 'Admin\ForgotPasswordController@showLinkRequestForm')->name('admin.password.reset');
-// ROUTE::POST('admin-password/reset', 'Admin\ForgotPasswordController@reset');
-// ROUTE::GET('admin-password/reset/{token}', 'Admin\ForgotPasswordController@showResetForm')->('admin.password.reset');

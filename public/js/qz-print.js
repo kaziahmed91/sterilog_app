@@ -70,6 +70,7 @@ var privateKey, selectedPrinter;
 
     qz.security.setSignaturePromise(function (toSign) {
         return function (resolve, reject) {
+            console.log(privateKey)
             try {
                 var pk = KEYUTIL.getKey(privateKey);
                 var sig = new KJUR.crypto.Signature({"alg": "SHA1withRSA"});

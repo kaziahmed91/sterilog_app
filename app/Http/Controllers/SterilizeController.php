@@ -75,7 +75,7 @@ class SterilizeController extends Controller
             error_log($e->getLine());
             return response()->json($e->getMessage(), $e->getCode());
         }
-        return  response()->json(['response' => 'success'], 200);
+        return  response()->json(['response' => 'success', 'privateKey' => $privateKey, 'printer' => $printer], 200);
     }
 
     public function index () {

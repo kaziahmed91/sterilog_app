@@ -10775,12 +10775,6 @@ html {
   height: 100%;
 }
 
-body {
-  min-height: 100%;
-  position: relative;
-  padding-bottom: 100px;
-}
-
 .footer {
   position: absolute;
   left: 0;
@@ -10801,7 +10795,7 @@ body {
       -ms-flex-align: center;
           align-items: center;
   position: relative;
-  top: -80px;
+  top: -110px;
 }
 
 .centerContainer {
@@ -10942,6 +10936,12 @@ body {
   -webkit-box-pack: baseline;
       -ms-flex-pack: baseline;
           justify-content: baseline;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 100;
 }
 
 .topbar-row p {
@@ -10956,6 +10956,16 @@ body {
 
 .topbar-row .topbar-buttons a img {
   margin-right: 10px;
+}
+
+.header-text {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 100;
+  margin-top: 90px;
 }
 
 .topbar-icon {
@@ -10973,9 +10983,15 @@ body {
 }
 
 .fullWidthAlert {
-  position: absolute !important;
   width: 100% !important;
   z-index: 1 !important;
   opacity: 0.95 !important;
+  display: inline-block;
+  overflow: hidden;
+  top: 155px;
+}
+
+.container-margin {
+  margin-top: 180px;
 }
 

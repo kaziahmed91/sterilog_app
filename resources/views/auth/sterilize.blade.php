@@ -1,38 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('includes.errorbar')
+    @include('includes.errorbar')   
     @include('includes.topbar')
     
-    <div class=" border-top border-bottom p-2 mb-3">
+    <div class=" border-top border-bottom p-2 mb-3 header-text">
         <h1 class="text-lg-center">Sterilizer Load</h1>
     </div>
 
-    <div class="container  h-70 w-40 mb-3">
+    <div class="container  h-70 w-40 mb-3 container-margin">
 
-        {{-- <div class=" mx-4 mt-3  row header  border-bottom"> --}}
-
-            {{-- <p class='display-4 col'>Sterilizer Load</p> --}}
-
-            {{-- <div class="row align-items-center mx-4 "> --}}
-
-                {{-- <div class="d-flex align-items-center  ">
-                    <h5 class='font-weight-bold '>Type 5 Test Status</h5>
-                    <label class="switch switch-flat ml-3">
-                        <input class="switch-input" {{ $checked ? 'checked' : '' }} id="type_5" type="checkbox" />
-                        <span class="switch-label" data-on="Active" data-off="Inactive"></span> 
-                        <span class="switch-handle"></span> 
-                    </label>
-                </div> --}}
-
-                {{-- <span class="border mx-2" style="height:80px; position:relative;"></span>
-
-                <a href="{{ route('sterile.logs') }}" class="ml-5 btn btn-primary topRight-icon btn-lg">
-                    <img class="tinyIcon" src="{{asset('icons/log_icon.png')}}" alt="">
-                    View Log
-                </a> --}}
-            {{-- </div>
-        </div> --}}
             <form id="sterilizeForm" class="form-group ">
                 {{ csrf_field() }}
 
@@ -68,7 +45,7 @@
                     <div class="d-flex align-items-center col-sm-4">
                         <h5 class='font-weight-bold'>Type 5 Test Status</h5>
                         <label class="switch switch-flat ml-3">
-                            <input class="switch-input" {{ $checked ? 'checked' : '' }} id="type_5" type="checkbox" />
+                            <input class="switch-input" {{ $checked ? 'checked' : '' }} id="type_5_switch" type="checkbox" />
                             <span class="switch-label" data-on="Active" data-off="Inactive"></span> 
                             <span class="switch-handle"></span> 
                         </label>

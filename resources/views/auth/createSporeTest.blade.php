@@ -1,7 +1,7 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 @section('content')
 @include('includes.navbar')
-<div class="container">
+<div class="container ">
 
     <div class="card m-4 ">
         <div class=" m-4 mb-0 row header  border-bottom">
@@ -88,4 +88,4 @@
 
 
 @endsection()
-
+ --}}

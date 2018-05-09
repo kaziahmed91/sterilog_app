@@ -54,9 +54,9 @@
 
 html { height: 100%; }
 body {
-    min-height:100%; 
-    position:relative; 
-    padding-bottom:100px;
+    // min-height:100%; 
+    // position:relative; 
+    // padding-bottom:100px;
 }
 .footer { 
     position: absolute; 
@@ -71,7 +71,7 @@ body {
     flex-direction: column;
     align-items:center;
     position:relative;
-    top:-80px;
+    top:-110px;
 }
 
 .centerContainer {

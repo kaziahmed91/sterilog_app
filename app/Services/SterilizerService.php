@@ -93,7 +93,7 @@ class SterilizerService
                     'units_printed' => $value, 
                     'sterilizer' => $data['sterilizer'], 
                     'cleaner' => $this->getCleaner($id)['name'], 
-                    'user' => $user_id->first_name.' '.$user->last_name
+                    'user' => $user->first_name.' '.$user->last_name
                 ];
 
             }
@@ -159,14 +159,14 @@ class SterilizerService
     public function updateCycle ($user, $data )
     {
         $cycle = CyclesModel::where('company_id', \Auth::user()->company_id)->where('id', $data['cycle_id'])->first();
-        $type_5_testable = $cycle->type_5_testing === '1' ? true : false;
+        $type_5_testable = $cycle->type_5_testing === 1 ? true : false;
 
+        error_log($type_5_testable);
         if ($data['batch'] === '1') {
             $batch_id = $cycle->batch_number;
 
             $cycles = CyclesModel::where('company_id', \Auth::user()->company_id)->
                 where('batch_number', $batch_id)->get();
-
             if ($cycles) {
                 foreach ($cycles as $cycle) {
                     $cycle['type_1'] = $data['type1'];

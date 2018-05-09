@@ -3,6 +3,13 @@
     align-items: center;
     flex-direction: row;
     justify-content: baseline;
+
+    overflow: hidden;
+    position: fixed; 
+    top: 0;
+    width: 100%;
+    background-color:white;
+    z-index:100;
     
     p {
         font-size:1.5em;
@@ -23,6 +30,17 @@
     }
 
 }
+
+.header-text {
+    overflow: hidden;
+    position: fixed; 
+    top: 0;
+    width: 100%;
+    background-color:white;
+    z-index:100;
+    margin-top:90px;
+}
+
 .topbar-icon {
     height:30px;
     width:30px;
@@ -40,8 +58,20 @@
 //Error Bar ;
 
 .fullWidthAlert {
-    position:absolute !important;
+    // position:absolute !important;
     width:100% !important;
     z-index:1 !important;
     opacity:0.95 !important;
+    display: inline-block;
+    
+    overflow: hidden;
+    // position: fixed; 
+    top: 155px;
+    // width: 100%;
+    // z-index:101;
 }
+
+.container-margin {
+    margin-top:180px;
+}
+

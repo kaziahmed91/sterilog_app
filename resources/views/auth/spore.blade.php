@@ -3,10 +3,10 @@
     @include('includes.errorbar')
     @include('includes.topbar') 
 
-    <div class=" border-top border-bottom p-2 mb-3">
+    <div class=" border-top border-bottom p-2 mb-3 header-text">
             <h1 class="text-lg-center">Spore Test</h1>
         </div>
-    <div class="container h-70 w-40">        
+    <div class="container h-70 w-40 container-margin">        
 
 
     <div class="">

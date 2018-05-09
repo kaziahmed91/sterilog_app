@@ -4,11 +4,11 @@
     @include('includes.errorbar')
     @include('includes.topbar')
 
-    <div class=" border-top border-bottom p-2 mb-3">
+    <div class=" border-top border-bottom p-2 mb-3 header-text">
         <h1 class="text-lg-center">Sterilizer Log</h1>
     </div>
 
-    <div class="container h-70 w-40">        
+    <div class="container container-margin" style="margin-bottom:50px;">        
         
         {{-- <div class=" mx-4 mt-3  row header  border-bottom">
             <p class='display-4 col'>Sterilizer Log</p>
@@ -21,8 +21,6 @@
                 </a>
             </div>
         </div> --}}
-
-        <div class="">
 
 
         <form action="/sterilize/filter" role="form" method="get" class='row'>
@@ -83,37 +81,37 @@
                 <table class="table table-sm table-striped table-hover ">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col" width="90" >Date</th>
-                            <th scope="col" width="90">Time</th>
-                            <th scope="col" width="100">Entry Operator</th>
-                            <th scope="col" width="100">Sterilizer</th>
-                            <th scope="col" width='30'>Cycle #</th>
-                            <th scope="col" width="20">Package</th>
-                            <th scope="col" width="20"># of Packages</th>
-                            <th scope="col" width='50'>Type 1</th>
-                            <th scope="col" width='50'>Type 4</th>
-                            <th scope="col" width='50'>Type 5</th> 
-                            <th scope="col" width='50'>Parameters Verified</th>
-                            <th scope="col" width="150">Comment</th>
+                            <th scope="col"  >Date</th>
+                            <th scope="col" >Time</th>
+                            <th scope="col" >Entry Operator</th>
+                            <th scope="col" >Sterilizer</th>
+                            <th scope="col" >Cycle #</th>
+                            <th scope="col" >Package</th>
+                            <th scope="col" ># of Packages</th>
+                            <th scope="col" >Type 1</th>
+                            <th scope="col" >Type 4</th>
+                            <th scope="col" >Type 5</th> 
+                            <th scope="col" >Parameters Verified</th>
+                            <th scope="col" >Comment</th>
                         </tr>
                     </thead>
                     
                     <tbody>
                         @foreach($activeCycles as $cycle)
                         <tr class="pointer" 
-                        data-cycleId="{{$cycle['id']}}"
-                        data-type5 = "{{$cycle['type_5_testing']}}"
-                        data-cycleCompleted = "{{!is_null($cycle['completed_by'])}}"
-                        data-completedOn= 
-                        "{{ 
-                            Carbon\Carbon::parse($cycle['completed_on'])->format('d-m-Y ')
-                        }}"
-                        data-completedBy= 
-                        "{{$cycle['removalUser']['first_name'].' '.
-                                $cycle['removalUser']['last_name'] }}"
-                        data-target="#activeSterilizeModal" 
-                        data-toggle="modal" 
-                        data-entryComment ="{{$cycle['comment']}}"
+                            data-cycleId="{{$cycle['id']}}"
+                            data-type5 = "{{$cycle['type_5_testing']}}"
+                            data-cycleCompleted = "{{!is_null($cycle['completed_by'])}}"
+                            data-completedOn= 
+                            "{{ 
+                                Carbon\Carbon::parse($cycle['completed_on'])->format('d-m-Y ')
+                            }}"
+                            data-completedBy= 
+                            "{{$cycle['removalUser']['first_name'].' '.
+                                    $cycle['removalUser']['last_name'] }}"
+                            data-target="#activeSterilizeModal" 
+                            data-toggle="modal" 
+                            data-entryComment ="{{$cycle['comment']}}"
                         >
                         <td class="ent_date">
                             {{ 
@@ -163,10 +161,10 @@
                             </td>
                             <td class="params_verified">                     
                                 @if($cycle['params_verified'] === 1)
-                                Verified
+                                Yes
                                 @endif
                                 @if($cycle['params_verified'] === 0)
-                                Unverified
+                                No
                                 @endif
                             </td>
                             <td class="comment text  w-150"><span>{{$cycle['comment']}}</span></td>
@@ -175,7 +173,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
         </div>
         <div class="mx-auto">
             {{ $activeCycles->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}

@@ -1,4 +1,4 @@
-<div class="p-1 topbar-row">
+<nav class="p-1 topbar-row ">
     
     <a href="{{ url('/') }}" class="col-sm-3  ">
         <img class='' style="width:300px"  src="{{asset('images/Sterilog_Logo.png')}}" alt="">
@@ -46,5 +46,5 @@
         @endif --}}
         
     </div>
-</div>
+</nav>
 

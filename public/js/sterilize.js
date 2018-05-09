@@ -68,6 +68,7 @@ $(document).ready(function() {
         var type_5 =  $('#type_5_switch').is(':checked')  ? 1 : 0;
 
         
+        
         var cleaner_ids = $('.cleaners').children().find('span.input-group-text').map(function(e){
             return this.id;
         }).get();
@@ -108,13 +109,14 @@ $(document).ready(function() {
                 } else if (response == 'error'){
                     console.log(response)
                     $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
+                    window.scrollTo(0, 0);
                 }
                 console.log(response, status); 
             }).fail(function(err) {
                 var error = err.responseJSON;
                 $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+error.message+'</li>')
                 console.log(error.exception, error.message, error.line, error.file);
-
+                window.scrollTo(0, 0);
             });
         }
     });
@@ -145,11 +147,13 @@ $(document).ready(function() {
     }
 
 
-    var cycle_number, cycle_id;
+    var cycle_number, cycle_id, clicked_row;
 
-    $('tr').click(function(){
-
+    $('tr.pointer').click(function(){
+        console.log('balls')
         $('.confirm').hide(); 
+        clicked_row = $(this);
+        clicked_row.addClass('highlightSelectedRow');
 
         var cycle_completed = $(this).attr('data-cycleCompleted');
         
@@ -172,7 +176,7 @@ $(document).ready(function() {
         if (cycle_completed) {
             $('.completed').show();
             $('.input').hide();
-
+            console.log('completed');
             var remov_date = $(this).attr('data-completedOn');
             var r_operator = $(this).attr('data-completedBy');
 
@@ -189,8 +193,8 @@ $(document).ready(function() {
         } else {
             $('.input').show();
             $('.completed').hide();
-            console.log('type_5' ,type_5)
-            var state =  type_5 == 1 ? true : false;
+            var state =  type_5 === '1' ? false : true;
+            console.log('type_5' ,state)
             $('#type_5_switch').prop('disabled', state);
 
             $('#package').text(package);
@@ -232,25 +236,26 @@ $(document).ready(function() {
         }
         console.log(changeData)
         $.post('/updateCycle', changeData, function(res) {
-            console.log(response); 
             var response = res.response;
             var message = res.message;
 
             if (response == 'success') {
-                location.reload()
+                // location.reload()
             } else if (response == 'error'){
                 $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
+                window.scrollTo(0, 0);
             }
         }).fail(function(err) {
             var error = err.responseJSON;
             $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+error.message+'</li>')
+            window.scrollTo(0, 0);
             console.log(error.exception, error.message, error.line, error.file);
         });
     }
 
 
     function printData(printFiles, filepaths) {
-        console.log('printing', printFiles, filepaths)
+        // console.log('printing', printFiles, filepaths)
 
         qz.print(config, [{
             type: 'raw', 
@@ -262,6 +267,7 @@ $(document).ready(function() {
         }).catch(function(e) { 
             var message = "There was an issue with sending print data to the printer"
             $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
+            window.scrollTo(0, 0);
             console.log(e); 
         });
        
@@ -278,7 +284,11 @@ $(document).ready(function() {
             if (response == 'success'){
                 console.log('documents printed & deleted')
                 var message = 'Print request has been sent to the printer.';
-                $('.successMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
+                window.scrollTo(0, 0);
+                $('.successMsg').removeClass('hidden').slideDown().find('ul').append('<li>'+message+'</li>')
+                setTimeout(() => {
+                    $('.successMsg').slideUp().addClass('hidden').find('ul').children().remove();
+                }, 3000);
             }
         }).fail(function(a,b,c) {
             console.log(a,b,c);
@@ -297,10 +307,15 @@ $(document).ready(function() {
         $('.switch-input').prop('disabled', false);
         $('.completed').hide();
         $('.input').show();
-
+        if (typeof(cicked_row) !== 'undefined')  {
+            clicked_row.removeClass('highlightSelectedRow');
+        }
     });
 
     $('#activeSterilizeModal').on('hidden.bs.modal', function (e) {
         $(".switch-input").prop('checked', false);
+        // if (typeof(cicked_row) !== 'undefined')  {
+            clicked_row.removeClass('highlightSelectedRow');
+        // }
     });
 });

@@ -2,10 +2,10 @@
 @section('content')
 
 @include('includes.topbar')
-    <div class=" border-top border-bottom p-2 mb-3">
+    <div class=" border-top border-bottom p-2 mb-3 header-text">
         <h1 class="text-lg-center">Settings</h1>
     </div>
-    <div class="container ">
+    <div class="container container-margin">
 
         <div class="row mx-4">
 

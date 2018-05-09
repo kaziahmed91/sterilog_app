@@ -3,12 +3,10 @@
     @include('includes.errorbar')
     @include('includes.topbar')
 
-    <div class=" border-top border-bottom p-2 mb-3">
+    <div class=" border-top border-bottom p-2 mb-3 header-text">
         <h1 class="text-lg-center">Spore Log</h1>
     </div>
-<div class="container h-70 w-40">        
-
-
+<div class="container container-margin" style="margin-bottom:50px;">        
 
     <div class="">
 
@@ -124,10 +122,10 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="mx-auto">
-                {{ $tests->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}
-                </div>
             </div>
+                    <div class="mx-auto">
+                    {{ $tests->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}
+                    </div>
         </div>
     </div>
 </div>

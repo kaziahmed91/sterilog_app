@@ -7,7 +7,7 @@ $(document).ready(function(){
     $('input[name="daterange"]').daterangepicker(
     {
         locale: {
-        format: 'YYYY-MM-DD'
+        format: 'YYYY-MM-DD'    
         },
         startDate: '2018-03-10',
         
@@ -49,6 +49,7 @@ $(document).ready(function(){
         };
         if (cycleNumber === '' || lot_number === ''){
             var message = 'Cycle number & lot number cannot be empty!';
+            window.scrollTo(0, 0);
             $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>');
             return false;
         }
@@ -88,6 +89,7 @@ $(document).ready(function(){
                 $('.successMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
             } else if (response == 'error') {
                 console.log(response)
+                window.scrollTo(0, 0);
                 $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
             }
                 console.log(response, status); 
@@ -95,6 +97,7 @@ $(document).ready(function(){
                 var error = err.responseJSON;
                 console.log(error)
                 var message = error.message; 
+                window.scrollTo(0, 0);
                 $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
                 console.log(error.exception, error.message, error.line, error.file); 
             });
@@ -123,6 +126,7 @@ $(document).ready(function(){
                 $('.successMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
             } else if (response == 'error'){
                 console.log(response)
+                window.scrollTo(0, 0);
                 $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
             }
             console.log(response, status); 
@@ -131,13 +135,15 @@ $(document).ready(function(){
             console.log(error)
             console.log(error.exception, error.message, error.line, error.file); 
             var message = error.message; 
+            window.scrollTo(0, 0);
             $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
             console.log(error.exception, error.message, error.line, error.file); 
         });
     });
 
     var cycle_id, clicked_row;
-    $('tr').click(function() {
+    $('tr.pointer').click(function() {
+        console.log('balls')
         clicked_row = $(this);
         var e_date = $(clicked_row).find('.entryDt').html()
         var r_date = $(clicked_row).find('.removDt').html();
@@ -193,15 +199,22 @@ $(document).ready(function(){
 
     $('#completedTestModal').on('hidden.bs.modal', function (e) {
         $(".switch-input").prop('checked', false);
-        clicked_row.removeClass('highlightSelectedRow');
+        // if (typeof(cicked_row) !== 'undefined')  {
+
+            clicked_row.removeClass('highlightSelectedRow');
+        // }
 
     });
     $('#activeTestModal').on('hidden.bs.modal', function (e) {
-        clicked_row.removeClass('highlightSelectedRow');
+        // if (typeof(cicked_row) !== 'undefined')  {
+            clicked_row.removeClass('highlightSelectedRow');
+        // }
     });
     
     $('#addSporeTestModal').on('hidden.bs.modal', function (e) {
         $(".switch-input").prop('checked', false);
-        clicked_row.removeClass('highlightSelectedRow');
+        if (typeof(cicked_row) !== 'undefined')  {
+            clicked_row.removeClass('highlightSelectedRow');
+        }
     });
 });

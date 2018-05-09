@@ -53,15 +53,7 @@
 
 
 html { height: 100%; }
-// body {
-//     margin:0;
-//     padding:0;
-//     overflow-y: hidden;
 
-// }
-// body:hover {
-//     overflow-y: scroll;
-// }
 .footer { 
     position: absolute; 
     left: 0 ; right: 0; bottom: 0; 
@@ -79,9 +71,7 @@ html { height: 100%; }
 }
 
 .centerContainer {
-    // margin:0 auto;
-    // display:flex;
-    // justify-content:center;
+
     width: 320px;
     p {
         line-height:20px;

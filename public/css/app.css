@@ -10695,7 +10695,7 @@ a.text-dark:focus {
 }
 
 .table-responsive {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 table thead,
@@ -10708,8 +10708,8 @@ table tbody tr {
 table tbody {
   display: block;
   max-height: 350px;
-  overflow-y: scroll;
-  overflow-x: scroll;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .highlightSelectedRow {

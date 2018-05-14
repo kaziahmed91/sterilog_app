@@ -80,7 +80,7 @@ class SporeTestController extends Controller
 
         $query = SporeTestModel::where('company_id',\Auth::user()->company_id )->whereNotNull('removal_at') ;
         $queries = [];
-        // dd($request->all());    
+
         if ($request->has('daterange') && !is_null($request->input('daterange') ))
         {
             $dates = explode(' ',$request->input('daterange') );

@@ -5,7 +5,7 @@
     <div class=" border-top border-bottom p-2 mb-3 header-text">
         <h1 class="text-lg-center">Settings</h1>
     </div>
-    <div class="container container-margin">
+    <div class="container" style="margin-top:60px;">
 
         <div class="row mx-4">
 

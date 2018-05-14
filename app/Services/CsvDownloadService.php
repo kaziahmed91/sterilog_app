@@ -44,6 +44,7 @@ class CsvDownloadService
                     $collection->chunk(200, function($rows) use($handle) {
                         foreach ($rows as $key => $row) {
                             $formattedData = $this->formatSterilizeData($key, $row);
+                            error_log(print_r($formattedData,true));
                             fputcsv($handle, $formattedData);
                         }
                     });
@@ -67,7 +68,7 @@ class CsvDownloadService
     {
         try {       
             // error_log($row->completed_on);
-            $removUser =  $row->has('removalUser') && count($row->removalUser) > 0  ? 
+            $removUser =  !is_null($row->removalUser) ? 
                 $row->removalUser->first_name.' '.$row->removalUser->last_name : '';
             $removDt=  is_null($row->completed_on) ? "" : Carbon::parse($row->completed_on)->format('d-m-Y');
             $removTm=  is_null($row->completed_on) ? "" : Carbon::parse($row->completed_on)->format('h:i:s A');
@@ -119,7 +120,7 @@ class CsvDownloadService
     
     private function formatSporeData($key, $row)
     {
-        $removUser =  $row->has('removalUser') && count($row->removalUser) > 0  ? 
+        $removUser =  !is_null($row->removalUser) > 0  ? 
             $row->removalUser->first_name.' '.$row->removalUser->last_name : '';
         $removDt= !is_null($row->removal_at) ? Carbon::parse($row->removal_at)->format('d-m-Y') : '';
         $removTm= !is_null($row->removal_at)  ? Carbon::parse($row->removal_at)->format('h:i:s A') : '';

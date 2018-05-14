@@ -131,7 +131,7 @@ class SterilizeController extends Controller
                 return view('auth.sterilizeLog', ['activeCycles' => $cycle, 'sterilizers' => $sterilizers, 'cleaners' => $cleaners, 'operators'=> $operators]);
             } else if ($request->has('action') && $request->get('action') === 'Download' ) {
                 $collection = $response['collection'];
-                $send = $downloadService->downloadCsv($collection->get(), 'sterile');
+                $send = $downloadService->downloadCsv($collection, 'sterile');
                 $send->send();
             }
         } catch (Exception $e) {

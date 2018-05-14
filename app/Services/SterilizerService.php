@@ -21,7 +21,7 @@ class SterilizerService
 
     public function filter ($request)
     {
-        $query = CyclesModel::where('company_id',\Auth::user()->company_id );
+        $query = CyclesModel::where('company_id',\Auth::user()->company_id )->whereNotNull('completed_on');
         $queries = [];
         if ($request->has('daterange') && !is_null($request->input('daterange') ))
         {

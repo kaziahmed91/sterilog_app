@@ -46,11 +46,6 @@
             $('#user_name').val(user_id)
             console.log(user_id);
         });
-
-        $('body').on('click', '.alert-close', function() {
-            $(this).parents('.alert').hide();
-        });
-
     });
     </script>
 </body>

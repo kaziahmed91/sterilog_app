@@ -10,20 +10,20 @@ use Session;
 class SoftUserController extends Controller
 {
 
-    public function __construct() 
+    public function __construct()
     {
         // $this->middleware('auth');
 
     }
 
-    public function index() 
+    public function index()
     {
         return view('auth.softUserLogin');
     }
-    
-    public function login (Request $request)
+
+    public function login(Request $request)
     {
-        $data =$request->all(); 
+        $data = $request->all(); 
 
         // $validator = Validator::make($data, [
         //     // 'user_name' => 'required',
@@ -39,33 +39,32 @@ class SoftUserController extends Controller
         $currentlyLoggedIn = $request->session()->get('softUser_userName');
 
         // if (is_null($currentlyLoggedIn) || $currentlyLoggedIn === '') {
-            $softUser = SoftUserModel::where('company_id', \Auth::user()->company_id )
-                ->where('password', $data['password'])->first();
-            
-            if (!$softUser) {
-                return response()->json(['response' => 'error', 'message' => 'Invalid Pin!'], 401);
-            }
-            $softUser_name = $softUser->first_name.' '.$softUser->last_name;
-            $request->session()->put([
-                'softUser_userName' => $softUser->user_name, 
-                'softUser_fullName' => $softUser_name,
-                'softUser_lastActive' => time(),
-                'softUser_startTime' => time()
-            ]); 
-            
-            return response()->json(['response' => 'success'], 200);
+        $softUser = SoftUserModel::where('company_id', \Auth::user()->company_id)
+            ->where('password', $data['password'])->first();
+
+        if (!$softUser) {
+            return response()->json(['response' => 'error', 'message' => 'Invalid Pin!'], 401);
+        }
+        $softUser_name = $softUser->first_name . ' ' . $softUser->last_name;
+        $request->session()->put([
+            'softUser_userName' => $softUser->user_name,
+            'softUser_fullName' => $softUser_name,
+            'softUser_lastActive' => time(),
+            'softUser_startTime' => time()
+        ]);
+
+        return response()->json(['response' => 'success'], 200);
 
             // Session::flash('success', 'User '.$softUser_name.' is logged in!');
             // return redirect()->back();
         // }
     }
 
-    public function logout (Request $request)
+    public function logout(Request $request)
     {
         $currentlyLoggedIn = $request->session()->get('softUser_userName');
 
-        if (!is_null($currentlyLoggedIn) || $currentlyLoggedIn !== '' )
-        {
+        if (!is_null($currentlyLoggedIn) || $currentlyLoggedIn !== '') {
             $request->session()->forget(['softUser_fullName', 'softUser_userName', 'softUser_startTime']);
             Session::flash('success', 'User has been logged out!');
             return redirect()->back();

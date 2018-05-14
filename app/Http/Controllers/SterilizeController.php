@@ -20,6 +20,8 @@ use App\SoftUser as SoftUserModel;
 use App\Sterilizer as SterilizeModel;
 use App\Cleaners as CleanersModel;
 use App\Cycles as CyclesModel;
+use App\Services\CsvDownloadService;
+use Illuminate\Auth\EloquentUserProvider;
 
 
 class SterilizeController extends Controller
@@ -97,13 +99,6 @@ class SterilizeController extends Controller
             ]);
     }
 
-    public function logPost(Request $request ) {
-        
-        return view('auth.sterilizeLog');
-    } 
-
-    
-
     public function viewLog ()  
     {
         $cleaners = $this->getCleaners();
@@ -122,31 +117,47 @@ class SterilizeController extends Controller
         return view('auth.sterilizeLog', ['activeCycles' => $activeCycles, 'sterilizers' => $sterilizers, 'cleaners' => $cleaners, 'operators'=> $operators]);
     }  
 
-    public function filter (Request $request , SterilizerService $sterilizerService) 
+    public function filter (Request $request , SterilizerService $sterilizerService, CsvDownloadService $downloadService) 
     {
         $data = $request->all();
-
         $cleaners = $this->getCleaners();
         $sterilizers = $this->getSterilizers();
         $operators = $this->getOperators();
 
         try {
-            $cycle = $sterilizerService->filter($request);
+            $response = $sterilizerService->filter($request);       
+            if ($request->has('action') && $request->get('action') === 'Filter' ){
+                $cycle = $response['collection']->paginate(15)->appends($response['queries']);
+                return view('auth.sterilizeLog', ['activeCycles' => $cycle, 'sterilizers' => $sterilizers, 'cleaners' => $cleaners, 'operators'=> $operators]);
+            } else if ($request->has('action') && $request->get('action') === 'Download' ) {
+                $collection = $response['collection'];
+                $send = $downloadService->downloadCsv($collection->get(), 'sterile');
+                $send->send();
+            }
         } catch (Exception $e) {
             error_log($e->getMessage());
             error_log($e->getLine());
             return response()->json($e->getMessage(), $e->getCode());
         }
-
-        return view('auth.sterilizeLog', ['activeCycles' => $cycle, 'sterilizers' => $sterilizers, 'cleaners' => $cleaners, 'operators'=> $operators]);
     }
 
+    // private function downloadCsv (Request $request, SterilizerService $sterilizerService, CsvDownloadService $downloadService) {
+        
+    //     try {
+    //         // $collection = $sterilizerService->filter($request)['collection'];
+    //         $send = $downloadService->downloadCsv($collection->get(), 'sterile');
+    //     } catch (Exception $e) {
+    //         error_log('controller issue');
+    //         error_log($e->getMessage());
+    //         error_log($e->getLine());
+    //     }
+    //     $send->send();
+    // }
 
     public function sterilize(Request $request, SterilizerService $sterilizerService, SterilizerPrintService $printService)
     {   
         $data = $request->all();
         $logged_in = $request->session()->get('softUser_userName');
-        // error_log(print_r($data,true));
         if (Gate::allows('write_access') )
         {
             $logged_in = $request->session()->get('softUser_userName');
@@ -176,14 +187,14 @@ class SterilizeController extends Controller
             $user = SoftUserModel::where('company_id', \Auth::user()->company_id)
                 ->where('user_name', $logged_in)->first();
             try {
-                $updatedCycle = $sterilizerService->updateCycle($user,$data);
+                $entryLog = $sterilizerService->updateCycle($user,$data);
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 error_log($e->getLine());
                 return response()->json(['response' => 'error', 'message' => 'Error updating sterilization cycle!', 'line' => $e->getLine() ],500);
             }
 
-            return response()->json(['response' => 'success', 'message' => 'Cycle has been updated succesfully!'], 200);
+            return response()->json(['response' => 'success', 'log' => $entryLog], 200);
 
         } else {
             return response()->json(['response' => 'error',  'message' => 'Please log in to continue']);

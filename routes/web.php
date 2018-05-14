@@ -42,8 +42,9 @@ Route::group(['prefix' => '', 'middleware' => ['auth', 'softUser'] ], function (
     Route::get('/sterilize', 'SterilizeController@index')->name('sterile');
     Route::get('/sterilize/log', 'SterilizeController@viewLog')->name('sterile.logs');
     
-    Route::post('/sterilize/filter', 'SterilizeController@filter');
-    Route::get('/sterilize/filter', 'SterilizeController@filter');
+    Route::get('/sterilize/log/filter', 'SterilizeController@filter');
+    Route::post('/sterilize/log/filter', 'SterilizeController@filter');
+    // Route::post('/sterilize/log/download', 'SterilizeController@downloadCsv');
     Route::get('/privateKey', 'SterilizeController@getPrivateKey');
     Route::post('/deletePdf', 'SterilizeController@deletePdf');
     

@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     $('body').on('click', '.alert-close', function() {
-        $(this).parents('.alert').hide();
+        $(this).parent().addClass('hidden').find('ul').children().remove();
     });
 
     $('input[name="daterange"]').daterangepicker(
@@ -53,40 +53,33 @@ $(document).ready(function(){
             $('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>');
             return false;
         }
-        console.log(formData)
 
-            // var clone =  $("api_tableRow .pointer.clone")
-            // clone.removeClass('clone'); 
-            // clone.find('.date').text('date')
-            // clone.find('.time').text('time')
-            // clone.find('.creator').text('log.creator')
-            // clone.find('.sterilizer').text('sterile')
-            // console.log(clone.html())
-            // clone.appendTo('tablestbody');
         console.log('posting')
         $.post('/spore/new', formData, function(res) {
             var response = res.response;
-            console.log('posted ',response)
+            var message = 'New Spore test has been added';
+            var log = res.log
             if (response == 'success' ){
-                var message = 'A new spore test has been created!';
-                var log = res.log;
-                var line = $('tbody').find('tr:last')
-                // $("td").eq(1);
-                // var clone = line.clone(); 
-                console.log(log)
-                location.reload();
-                // line.removeClass('row').css('display', 'table-row');
-                // clone.find('.date').text(log.date)
-                // clone.find('.time').text(log.time)
-                // clone.find('.creator').text(log.creator)
-                // clone.find('.sterilizer').text(log.sterilizer)
-                // clone.find('.cycle').text(log.cycle)
-                // clone.find('.lot').text(log.lot)
-                // clone.find('.control').text(log.control)
-                // clone.find('.test').text(log.test)
-                // clone.find('.comment').text(log.comment)
-                // $(line).after(clone);
-                $('.successMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
+                $('tbody').prepend([
+                    "<tr class='pointer' data-target='#activeTestModal'data-testId='" + log.id + "' data-toggle='modal'>",
+                        '<td>'+ log.date +'</td>',
+                        '<td>'+ log.time +'</td>',
+                        '<td>'+ log.creator +'</td>',
+                        '<td>'+ log.sterilizer +'</td>',
+                        '<td>'+ log.cycle +'</td>',
+                        '<td>'+ log.lot +'</td>',
+                        '<td></td>',
+                        '<td></td>',
+                        '<td>'+ log.comment +'</td>',
+                    '</tr>'
+                ].join(''));
+                
+                // window.scrollTo(0, 0);
+                $('html, body').animate({scrollTop: '0px'}, 500);
+                $('.successMsg').removeClass('hidden').slideDown().find('ul').append('<li>'+message+'</li>')
+                setTimeout(() => {
+                    $('.successMsg').slideUp().addClass('hidden').find('ul').children().remove();
+                }, 3000);
             } else if (response == 'error') {
                 console.log(response)
                 window.scrollTo(0, 0);
@@ -115,15 +108,22 @@ $(document).ready(function(){
             'cycle_id' : cycle_id, 
             'additional_comments' : additional_comments
         }
+        console.log(postData);
         $('#activeTestModal').modal('hide');
-        // console.log(postData);
         $.post('/spore/update', postData, function(res) {
             var response = res.response;
+            var log = res.log;
             console.log('posted ',response)
             if (response == 'success' ){
-                location.reload();
                 var message = 'Spore Test has been updated!';
-                $('.successMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
+                if (clicked_row) {
+                    clicked_row.remove();
+                }
+                $('html, body').animate({scrollTop: '0px'}, 500);
+                $('.successMsg').removeClass('hidden').slideDown().find('ul').append('<li>'+message+'</li>')
+                setTimeout(() => {
+                    $('.successMsg').slideUp().addClass('hidden').find('ul').children().remove();
+                }, 3000);
             } else if (response == 'error'){
                 console.log(response)
                 window.scrollTo(0, 0);
@@ -143,7 +143,6 @@ $(document).ready(function(){
 
     var cycle_id, clicked_row;
     $('tr.pointer').click(function() {
-        console.log('balls')
         clicked_row = $(this);
         var e_date = $(clicked_row).find('.entryDt').html()
         var r_date = $(clicked_row).find('.removDt').html();
@@ -172,7 +171,15 @@ $(document).ready(function(){
         $('#test').text(test);
 
         clicked_row .addClass('highlightSelectedRow')
-
+        var attr = $(this).attr('data-target');
+        
+        // // For some browsers, `attr` is undefined; for others, `attr` is false. Check for both.
+        // if (typeof attr !== typeof undefined && attr !== false  && attr === '#activeTestModal') {
+        //     console.log('opening active test modal Modal')
+        //     $('#activeTestModal').modal('show');
+        // } else if (typeof attr !== typeof undefined && attr !== false && attr === '#completedTestModal') {
+        //     $('#completedTestModal').modal('show');
+        // }
     });
 
     $('#updateComments').click(function() {
@@ -186,7 +193,7 @@ $(document).ready(function(){
             var response = res.response;
 
             if (response == 'success') {
-                clicked_row.find('.removComm').html(comment);
+                clicked_row.find('.removComm span').html(comment);
                 $('.dismiss-modal').click();
                 console.log('saved');
             }
@@ -208,6 +215,8 @@ $(document).ready(function(){
     $('#activeTestModal').on('hidden.bs.modal', function (e) {
         // if (typeof(cicked_row) !== 'undefined')  {
             clicked_row.removeClass('highlightSelectedRow');
+            $(".switch-input").prop('checked', false);
+
         // }
     });
     

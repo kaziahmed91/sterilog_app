@@ -8,8 +8,6 @@
     </div>
 <div class="container container-margin" style="margin-bottom:50px;">        
 
-    <div class="">
-
         <form action="/spore/log/filter" role="form" method="get" class='row'>
             {{ csrf_field() }}
 
@@ -58,11 +56,19 @@
             <div class="form-group col-md-2">
               <label for="lot">Lot</label>
               <input type="number" class="form-control" name="lot" aria-describedby="helpId" placeholder="">
-            </div>
+            </div> 
       
-            <div class="form-group d-flex align-items-end col-sm-2">
-                <button type="submit" type="submit" class="btn btn-primary mr-2">Search</button>
-                <a href="{{url('/spore/log')}}" type="" class="btn btn-secondary ">Reset</a> 
+            <!-- Default dropright button -->
+            <div class=" btn-group btn actions  btn-lg  col-md-2">
+                <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                </button>
+                <div class="dropdown-menu">
+                    <input class="dropdown-item pointer" type="submit" name="action" value="Filter"></input>
+                    <a class="dropdown-item" href="{{url('/spore/log')}}">Reset</a>
+                <div class="dropdown-divider"></div>
+                    <input class="dropdown-item" type="submit"   name="action" value="Download"></input>
+                </div>
             </div>
 
         </form>
@@ -71,7 +77,7 @@
             {{-- <div class="card-header">All Tests</div> --}}
             <div class="card-body table-responsive">
                 <table class="table table-sm table-striped table-hover">
-                    <thead>
+                    <thead class='thead-light'>
                         <tr>
                             <th scope="col">Entry Date</th>
                             <th scope="col">Removal Date</th>
@@ -90,7 +96,7 @@
                     <tbody>
                         @foreach($tests as $test)
                             <tr class="pointer" 
-                                data-target="{{is_null($test['removal_at']) ? "#activeTestModal" : "#completedTestModal"}}"
+                                data-target='#completedTestModal'
                                 data-testId="{{$test['id']}}" data-toggle="modal" >
                                 <td class="entryDt">
                                     {{ 
@@ -110,7 +116,7 @@
                                     @if( !is_null($test['removal_at']) )
                                         {{$test['control_sterile'] == 0  && is_null($test['control_sterile'])  ? 'Unsterile' : 'Sterile'}}
                                     @endif
-                                </td>
+                                </td>   
                                 <td class="test">
                                     @if( !is_null($test['removal_at']) )
                                         {{$test['test_sterile'] == 0 ? 'Unsterile' : 'Sterile'}}
@@ -123,11 +129,10 @@
                     </tbody>
                 </table>
             </div>
-                    <div class="mx-auto">
-                    {{ $tests->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}
-                    </div>
+            <div class="mx-auto">
+                {{ $tests->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}
+            </div> 
         </div>
-    </div>
 </div>
 
 <div class="modal fade" id="completedTestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -209,8 +214,6 @@
         </div>
     </div>
 </div>
-
-    @include('includes.updateSporeTest-modal')
 
     @section('script')  
         <script src="{{asset('js/spore-test.js')}}"></script>

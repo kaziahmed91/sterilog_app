@@ -10689,6 +10689,11 @@ a.text-dark:focus {
   max-width: 100%;
 }
 
+.table td,
+.table th {
+  text-align: center;
+}
+
 .tinyIcon {
   width: 30px;
   margin-right: 5px;
@@ -10714,13 +10719,32 @@ table tbody {
 
 .highlightSelectedRow {
   border: 2px solid #006494;
-  width: 99%;
 }
 
 svg {
   top: -30px;
   left: 10px;
   position: relative;
+}
+
+.actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  top: 7px;
+}
+
+.actions button {
+  width: 150px;
+  height: 36px;
+  line-height: 1.1;
 }
 
 .hidden {
@@ -10988,6 +11012,7 @@ html {
   opacity: 0.95 !important;
   display: inline-block;
   overflow: hidden;
+  position: fixed;
   top: 155px;
 }
 

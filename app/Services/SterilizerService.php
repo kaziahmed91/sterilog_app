@@ -15,15 +15,14 @@ use App\Cycles as CyclesModel;
 class SterilizerService 
 {
 
-    public function __construct( )
+    public function __construct()
     {
     }
 
     public function filter ($request)
     {
         $query = CyclesModel::where('company_id',\Auth::user()->company_id );
-        $queriers = [];
-        // error_log(print_r($request->all(),true));
+        $queries = [];
         if ($request->has('daterange') && !is_null($request->input('daterange') ))
         {
             $dates = explode(' ',$request->input('daterange') );
@@ -37,7 +36,6 @@ class SterilizerService
         if ($request->has('operator') && !is_null($request->input('operator')))
         {
             $name = explode(' ',$request->input('operator') );
-            error_log(print_r($name,true));
             $query->whereHas('entryUser', function ($user) use ($name) {
                 $user->where('first_name', 'like', $name[0])
                 ->where('last_name', 'like', $name[1]);
@@ -65,10 +63,9 @@ class SterilizerService
              $query->where('cycle_number', $request->input('cycle'));
             $queries['cycle'] = $request->input('cycle');
         }
+        
 
-        $cycle = $query->paginate(15)->appends($queries);
-
-        return $cycle;
+        return ['collection'=> $query, 'queries' => $queries];
     }
 
     private function getCleaner ($id)
@@ -98,7 +95,6 @@ class SterilizerService
 
             }
         }
-
         
         try {
             $file = $this->generateTags($label_data, $printService);
@@ -161,7 +157,6 @@ class SterilizerService
         $cycle = CyclesModel::where('company_id', \Auth::user()->company_id)->where('id', $data['cycle_id'])->first();
         $type_5_testable = $cycle->type_5_testing === 1 ? true : false;
 
-        error_log($type_5_testable);
         if ($data['batch'] === '1') {
             $batch_id = $cycle->batch_number;
 
@@ -175,6 +170,7 @@ class SterilizerService
                     $cycle['params_verified'] = $data['params_verified'];
                     $cycle['completed_by'] = $user->id;
                     $cycle['completed_on'] = Carbon::now();
+                    $cycle['additional_comments'] = $data['comments'];
 
                     if (!$cycle->save()) {
                         return response()->json(['response'=> 'error! Problem batch saving'], 500);
@@ -185,21 +181,31 @@ class SterilizerService
         } elseif ( $data['batch'] === '0')
         {
             if ($cycle) {
-
-
+                error_log( print_r($data,true));
                 $cycle->type_1 = $data['type1'];
                 $cycle->type_4 = $data['type4'];
                 $cycle->type_5 = $type_5_testable ? $data['type5'] : null;
-                $cycle['params_verified'] = $data['params_verified'];
+                $cycle->params_verified = $data['params_verified'];
                 $cycle->completed_by = $user->id;
-                $cycle['completed_on'] = Carbon::now();
-
+                $cycle->additional_comments = $data['comments'];
+                $cycle->completed_on = Carbon::now();
             }
             if (!$cycle->save() ){
                 return response()->json(['response'=> 'error! roblem batch cycle!'], 500);
             }
 
         }
+        $entryLog = [
+            'date' => Carbon::now()->format('d-m-Y'), 
+            'time' => Carbon::now()->format('h:i:s A'), 
+            'remover' => $user->first_name.' '.$user->last_name, 
+            'type1' => $data['type1'] === '1' ? "Sterile" : 'Unsterile', 
+            'type4' => $data['type4'] === '1' ? "Sterile" : 'Unsterile', 
+            'type5' => $data['type5'] === '1' ? "Sterile" : 'Unsterile',
+            'params' => $data['params_verified'] === '1' ? "Yes" : 'No',
+            // 'comment' => $data['comments'] == null ? '' : $data['comments']
+        ];
+        return $entryLog;
     } 
 
     private function generateTags ($data, SterilizerPrintService $printService)

@@ -42,6 +42,9 @@
         max-width: 100%;
     }
 }
+.table td, .table th {
+    text-align: center;   
+ }
 
 .tinyIcon {
     width:30px;
@@ -67,11 +70,24 @@ table tbody {
 
 .highlightSelectedRow {
     border: 2px solid #006494;
-    width:99%;
+    // width:99%;
 }
 
 svg {
     top: -30px;
     left: 10px;
     position: relative;
+}
+
+.actions {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top:7px;
+    button {
+        width:150px;
+        height: 36px;
+        line-height: 1.1;
+    }
 }

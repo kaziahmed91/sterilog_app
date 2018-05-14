@@ -34,6 +34,7 @@ class SterilizeServiceProvider extends ServiceProvider
         $this->app->singleton('SterilizerService', function ($app) 
         {
             return new SterilizerService();
-        })
+        });
+
     }
 }

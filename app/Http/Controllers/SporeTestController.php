@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Services\CsvDownloadService; 
+
 use App\SporeTest as SporeTestModel;
 use App\Cycles as CyclesModel;
 use App\User as UserModel;
@@ -54,7 +56,7 @@ class SporeTestController extends Controller
     public function log() {
         $sterilizers = $this->getSterilizers();
         $operators = $this->getOperators();
-        $allTests = SporeTestModel::where('company_id', \Auth::user()->company_id)
+        $allTests = SporeTestModel::where('company_id', \Auth::user()->company_id)->whereNotNull('removal_at')
                         ->with('entryUser','removalUser','sterilizer')->orderBy('removal_at','asc')->paginate(15); ;
         return view('auth.sporeLog', ['tests'=> $allTests, 'sterilizers'=> $sterilizers, 'operators'=>$operators]);
     }
@@ -71,13 +73,13 @@ class SporeTestController extends Controller
         return view('auth.spore', ['activeTests' => $activeTests, 'sterilizers' => $sterilizers, 'cycle_number' => $cycle_number, 'lot_number' => $lot]);
     }
 
-    public function filter (Request $request) 
+    public function filter (Request $request, CsvDownloadService $downloadService) 
     {
         $sterilizers = $this->getSterilizers();
         $operators = $this->getOperators();
 
         $query = SporeTestModel::where('company_id',\Auth::user()->company_id );
-        $queriers = [];
+        $queries = [];
         // dd($request->all());    
         if ($request->has('daterange') && !is_null($request->input('daterange') ))
         {
@@ -124,13 +126,17 @@ class SporeTestController extends Controller
              $query->where('lot_number', $request->input('lot'));
             $queries['lot'] = $request->input('lot');
         }
+        
+        if ($request->has('action') && $request->get('action') === 'Filter' ){
 
+            $cycle = $query->paginate(15)->appends($queries);
+            return view('auth.sporeLog', ['tests'=> $cycle, 'sterilizers'=> $sterilizers, 'operators'=>$operators]);
 
-        $cycle = $query->paginate(15)->appends($queries);
-        // dd($cycle);
-
-        return view('auth.sporeLog', ['tests'=> $cycle, 'sterilizers'=> $sterilizers, 'operators'=>$operators]);
-
+        } else if ($request->has('action') && $request->get('action') === 'Download' ) {
+            // dd($query);
+            $send = $downloadService->downloadCsv($query, 'spore');
+            $send->send();
+        }
     }
 
     public function getSoftUser(Request $request) {
@@ -163,6 +169,7 @@ class SporeTestController extends Controller
                 'lot_number' => $request->input('lot_number',0), 
                 'entry_at' => Carbon::now() 
             ]);
+
             $entryLog = [
                 'id' => $test->id,
                 'date' => Carbon::now()->format('d-m-Y'), 
@@ -173,7 +180,7 @@ class SporeTestController extends Controller
                 'lot' => $data['lot_number'], 
                 'control' => 0, 
                 'test' => 0, 
-                'comment' => $data['comment']
+                'comment' => $data['comment'] == null ? '' : $data['comment']
             ];
 
             return response()->json(['response' => 'success', 'log' => $entryLog], 200);
@@ -190,16 +197,28 @@ class SporeTestController extends Controller
 
         if (Gate::allows('write_access') )
         {
-
-            if ($test)
+            $softUser = $this->getSoftUser($request);
+            if ($test) {
                 $test->control_sterile = $data['control_sterile']; 
                 $test->test_sterile = $data['test_sterile'];
                 $test->additional_comments = $data['additional_comments'];
-                $test->removal_operator_id = $this->getSoftUser($request)->id;
+                $test->removal_operator_id = $softUser->id;
                 $test->removal_at = Carbon::now();
                 $test->save();
+            }
 
-            return response()->json(['response' => 'success', 'test' => $test], 200);
+            $entryLog = [
+                'id' => $test->id,
+                'date' => Carbon::now()->format('d-m-Y'), 
+                'time' => Carbon::now()->format('h:i:s A'), 
+                'remover' => $softUser->first_name.' '.$softUser->last_name, 
+                'control' => $data['control_sterile'] === '1' ? "Sterile" : 'Unsterile', 
+                'test' => $data['test_sterile'] === '1' ? "Sterile" : 'Unsterile',
+                'comment' => $data['additional_comments'] == null ? '' : $data['additional_comments']
+            ];
+
+
+            return response()->json(['response' => 'success', 'log' => $entryLog], 200);
 
         } else {
             return response()->json(['response' => 'error',  'message' => 'Please log in to continue'], 403);

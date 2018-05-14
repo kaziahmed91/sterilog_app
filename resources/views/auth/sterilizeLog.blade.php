@@ -7,23 +7,21 @@
     <div class=" border-top border-bottom p-2 mb-3 header-text">
         <h1 class="text-lg-center">Sterilizer Log</h1>
     </div>
+    {{-- <div class=" mx-4 mt-3  row header  border-bottom">
+        <p class='display-4 col'>Sterilizer Log</p>
+        <div class="row align-items-center mx-4 ">
+            <span class="border mx-2" style="height:80px; position:relative;"></span>
+
+            <a href="{{ route('sterile') }}" class="ml-5 btn btn-primary topRight-icon btn-lg">
+                <img class="tinyIcon" src="{{asset('icons/sterilizer_icon.png')}}" alt="">
+                Sterilize
+            </a>
+        </div>
+    </div> --}}
 
     <div class="container container-margin" style="margin-bottom:50px;">        
         
-        {{-- <div class=" mx-4 mt-3  row header  border-bottom">
-            <p class='display-4 col'>Sterilizer Log</p>
-            <div class="row align-items-center mx-4 ">
-                <span class="border mx-2" style="height:80px; position:relative;"></span>
-
-                <a href="{{ route('sterile') }}" class="ml-5 btn btn-primary topRight-icon btn-lg">
-                    <img class="tinyIcon" src="{{asset('icons/sterilizer_icon.png')}}" alt="">
-                    Sterilize
-                </a>
-            </div>
-        </div> --}}
-
-
-        <form action="/sterilize/filter" role="form" method="get" class='row'>
+        <form action="/sterilize/log/filter" role="form" method="get" class='row'>
             {{ csrf_field() }}
 
             <div class="form-group col-md-2">
@@ -68,10 +66,17 @@
               <input type="number" class="form-control" name="cycle" aria-describedby="helpId" placeholder="">
             </div>
       
-            <div class="form-group d-flex align-items-end col-sm-2">
-                <button type="submit" type="submit" class="btn btn-primary mr-2">Search</button>
-                <a href="{{url('/sterilize/log')}}" class="btn btn-secondary ">Reset</a> 
-            </div>
+            <div class=" btn-group btn actions  btn-lg  col-md-2">
+                <button type="button" class="btn btn-secondary btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                </button>
+                <div class="dropdown-menu">
+                    <input class="dropdown-item pointer" type="submit" name="action" value="Filter"></input>
+                    <a class="dropdown-item" href="{{url('/sterilize/log')}}">Reset</a>
+                <div class="dropdown-divider"></div>
+                    <input class="dropdown-item downloadCsv pointer" type="submit" name="action" value="Download"></input>
+                </div>
+            </div
 
         </form>
 
@@ -107,11 +112,12 @@
                                 Carbon\Carbon::parse($cycle['completed_on'])->format('d-m-Y ')
                             }}"
                             data-completedBy= 
-                            "{{$cycle['removalUser']['first_name'].' '.
-                                    $cycle['removalUser']['last_name'] }}"
+                                "{{$cycle['removalUser']['first_name'].' '.
+                                $cycle['removalUser']['last_name'] }}"
                             data-target="#activeSterilizeModal" 
                             data-toggle="modal" 
-                            data-entryComment ="{{$cycle['comment']}}"
+                            data-removComment ="{{$cycle['additional_comments']}}"
+                            data-batchNum="{{$cycle['batch_number']}}"
                         >
                         <td class="ent_date">
                             {{ 
@@ -166,6 +172,7 @@
                                 @if($cycle['params_verified'] === 0)
                                 No
                                 @endif
+                                
                             </td>
                             <td class="comment text  w-150"><span>{{$cycle['comment']}}</span></td>
                         </tr>
@@ -173,9 +180,9 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="mx-auto">
-            {{ $activeCycles->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}
+            <div class="mx-auto">
+                {{ $activeCycles->appends(request()->except('page'))->links('vendor/pagination/bootstrap-4') }}
+            </div>
         </div>
     </div>
 
@@ -307,6 +314,7 @@
                     <p class='font-weight-bold'>Entry Comment: </p>&nbsp;&nbsp;
                     <p id="ent_comment"></p>
                 </div>
+                
                 <div class="form-group">
                     <label for="comment"class="font-weight-bold">Additional Comments</label>
                     <textarea class='form-control' id="addtl_comment" rows="2" ></textarea>

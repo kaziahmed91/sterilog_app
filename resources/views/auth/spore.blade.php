@@ -8,9 +8,6 @@
         </div>
     <div class="container h-70 w-40 container-margin">        
 
-
-    <div class="">
-
         <div class="card">
             <div class="card-header">Active Tests</div>
            
@@ -31,20 +28,7 @@
                     </thead>
 
                     <tbody>     
-                        <div class="api_tableRow ">
-                            <tr class="pointer clone " data-target="#activeTestModal" data-testId="" data-toggle="modal"></tr>
-                                <td class="date"></td>
-                                <td class="time"></td>
-                                <td class="creator"></td>
-                                <td class="sterilizer"></td>
-                                <td class="cycle"></td>
-                                <td class="lot"></td>
-                                <td class="control"></td>
-                                <td class="test"></td>
-                                <td class="comment"></td>
-                            </td>
 
-                        </div>
                         @foreach($activeTests as $test)
                             <tr class="pointer" data-target="#activeTestModal" data-testId="{{$test['id']}}" data-toggle="modal" >
                                 <td >{{ 
@@ -66,7 +50,6 @@
                 </table>    
                 
             </div>
-        </div>
         <br>
             <button
             data-target="#addSporeTestModal" data-toggle="modal" 

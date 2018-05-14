@@ -3,8 +3,21 @@
     @include('includes.errorbar')
     @include('includes.topbar')
 
-    <div class=" border-top border-bottom p-2 mb-3 header-text">
-        <h1 class="text-lg-center">Spore Log</h1>
+    <div class="header-text header-container">
+        <div class="headerBar">
+            <p class="header">Spore log</p>
+            <span id="closeNavBtn">
+                <span class="line1"></span>
+                <span class="line2"></span>
+                <span class="line3"></span>
+            </span>
+        </div>
+        
+        <ul class="menulist">
+            <li><a class="menuitems" href="{{route('spore')}}">Spore Tests</a></li>		
+            <li><a class="menuitems" href="{{route('sterile')}}">Sterilizer Load</a></li>				
+            <li><a class="menuitems" href="{{route('sterile.logs')}}">Sterilizer Logs</a></li>
+        </ul>	
     </div>
 <div class="container container-margin" style="margin-bottom:50px;">        
 
@@ -217,6 +230,50 @@
 
     @section('script')  
         <script src="{{asset('js/spore-test.js')}}"></script>
+
+        <script>
+            // var nav = $('.header-container');
+            // var main = document.getElementById("main");
+            // var menu = document.getElementsByClassName("menuitems");
+            // var close = document.getElementById("closebtn");
+
+            // //default to measure if/else from
+            // nav.style.height = "50px";
+            // main.style.marginTop = "50px";
+            // for (i = 0; i < menu.length; i++){menu[i].style.marginTop="100px";};
+
+
+            // function navToggle() {	
+            //     //to close
+            //     if (nav.style.height <= "275px") {
+            //         nav.style.height = "50px";
+            //         main.style.marginTop = "50px";
+                    
+            //         var i = 0;
+            //         for (i = 0; i < menu.length; i++){
+            //             menu[i].style.opacity="0.0";
+            //             menu[i].style.marginTop="100px";
+            //         };
+            //         document.body.style.backgroundColor = "rgba(0,0,0,0.0)";
+                
+            //     } 
+            //     //to open
+            //     else if (nav.style.height <= "50px") {
+            //         nav.style.height = "275px";
+            //         main.style.marginTop = "275px";
+            //         var i = 0;
+            //         for (i = 0; i < menu.length; i++){
+            //         menu[i].style.opacity="1.0";
+            //         menu[i].style.marginTop="0px";
+            //         };
+            //         document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+                
+            //     }
+
+            // };
+
+        </script>
+        
     @endsection
 @endsection()
 

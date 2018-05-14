@@ -10982,14 +10982,136 @@ html {
   margin-right: 10px;
 }
 
-.header-text {
-  overflow: hidden;
-  position: fixed;
-  top: 0;
+.header-container {
   width: 100%;
-  background-color: white;
-  z-index: 100;
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: 0;
   margin-top: 90px;
+  overflow: hidden;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  padding-top: 0px;
+  background-color: aliceblue;
+  box-shadow: 0 4px 4px -3px #f0f8ff;
+  -moz-box-shadow: 0 4px 4px -3px #f0f8ff;
+  -webkit-box-shadow: 0 4px 4px -3px #f0f8ff;
+}
+
+.header-container .headerBar {
+  height: 80px;
+  padding: 5px;
+}
+
+.header-container .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+#closeNavBtn {
+  height: 45px;
+  width: 45px;
+  position: absolute;
+  text-decoration: none;
+  top: 18px;
+  right: 15px;
+  font-size: 36px !important;
+  margin-right: 50px;
+  z-index: 100;
+  color: black;
+  cursor: pointer;
+  -webkit-transition: background-position .3s;
+  transition: background-position .3s;
+}
+
+.menulist {
+  display: none;
+  padding-left: 0px;
+  background-color: aliceblue;
+}
+
+.menulist li {
+  text-align: center;
+  list-style: none;
+  width: 100%;
+}
+
+.menulist li a {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  text-decoration: none;
+  list-style: none;
+  font-weight: 500;
+  font-size: 30px;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+  color: black;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+.line1,
+.line2,
+.line3 {
+  margin-top: 7px;
+  background-color: black;
+  width: 35px;
+  height: 4px;
+  display: block;
+  position: relative;
+  opacity: 1.0;
+  border-radius: 15%;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+
+.line1.active {
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+  opacity: 0.0;
+  background-color: black;
+  top: 5px;
+}
+
+.line2.active {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  background-color: black;
+}
+
+.line3.active {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  background-color: black;
+  top: -11px;
+}
+
+.menulist li:hover a {
+  color: #2884C6;
+}
+
+.menuitems:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 1px;
+  background: #2884C6;
+  -webkit-transition: width .2s;
+  transition: width .2s;
+}
+
+.header-row {
+  padding: 5px;
 }
 
 .topbar-icon {
@@ -11013,7 +11135,7 @@ html {
   display: inline-block;
   overflow: hidden;
   position: fixed;
-  top: 155px;
+  top: 172px;
 }
 
 .container-margin {

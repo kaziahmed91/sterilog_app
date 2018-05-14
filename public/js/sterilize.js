@@ -5,6 +5,14 @@ $(document).ready(function() {
 		$(this).parents('.alert').hide();
 	});
 
+	$('#closeNavBtn').click(function(){
+        var icons = $(this).children();
+        icons.each(function(icon, i){
+            $(this).toggleClass('active');
+        })
+        $('.menulist').slideToggle();
+    })
+
 
 	$('input[name="daterange"]').daterangepicker(
 	{

@@ -3,9 +3,26 @@
     @include('includes.errorbar')
     @include('includes.topbar') 
 
-    <div class=" border-top border-bottom p-2 mb-3 header-text">
-            <h1 class="text-lg-center">Spore Test</h1>
+    {{-- <div class=" border-top border-bottom p-2 mb-3 header-text">
+        <h1 class="text-lg-center">Spore Test</h1>
+    </div> --}}
+    <div class="header-text header-container">
+        <div class="headerBar">
+            <p class="header">Spore Test</p>
+            <span id="closeNavBtn">
+                <span class="line1"></span>
+                <span class="line2"></span>
+                <span class="line3"></span>
+            </span>
         </div>
+        
+        <ul class="menulist">
+            <li><a class="menuitems" href="{{route('spore.logs')}}">Spore Logs</a></li>		
+            <li><a class="menuitems" href="{{route('sterile')}}">Sterilizer Load</a></li>				
+            <li><a class="menuitems" href="{{route('sterile.logs')}}">Sterilizer Logs</a></li>
+        </ul>	
+    </div>
+
     <div class="container h-70 w-40 container-margin">        
 
         <div class="card">

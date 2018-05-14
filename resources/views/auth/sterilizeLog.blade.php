@@ -4,20 +4,22 @@
     @include('includes.errorbar')
     @include('includes.topbar')
 
-    <div class=" border-top border-bottom p-2 mb-3 header-text">
-        <h1 class="text-lg-center">Sterilizer Log</h1>
-    </div>
-    {{-- <div class=" mx-4 mt-3  row header  border-bottom">
-        <p class='display-4 col'>Sterilizer Log</p>
-        <div class="row align-items-center mx-4 ">
-            <span class="border mx-2" style="height:80px; position:relative;"></span>
-
-            <a href="{{ route('sterile') }}" class="ml-5 btn btn-primary topRight-icon btn-lg">
-                <img class="tinyIcon" src="{{asset('icons/sterilizer_icon.png')}}" alt="">
-                Sterilize
-            </a>
+    <div class="header-text header-container">
+        <div class="headerBar">
+            <p class="header">Sterilizer Log</p>
+            <span id="closeNavBtn">
+                <span class="line1"></span>
+                <span class="line2"></span>
+                <span class="line3"></span>
+            </span>
         </div>
-    </div> --}}
+        
+        <ul class="menulist">
+            <li><a class="menuitems" href="{{route('sterile')}}">Sterilizer Load</a></li>				
+            <li><a class="menuitems" href="{{route('spore')}}">Spore Tests</a></li>		
+            <li><a class="menuitems" href="{{route('spore.logs')}}">Spore Logs</a></li>
+        </ul>	
+    </div>
 
     <div class="container container-margin" style="margin-bottom:50px;">        
         

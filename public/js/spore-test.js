@@ -4,6 +4,15 @@ $(document).ready(function(){
         $(this).parent().addClass('hidden').find('ul').children().remove();
     });
 
+    $('#closeNavBtn').click(function(){
+        var icons = $(this).children();
+        icons.each(function(icon, i){
+            $(this).toggleClass('active');
+        })
+        $('.menulist').slideToggle();
+    })
+
+
     $('input[name="daterange"]').daterangepicker(
     {
         locale: {

@@ -4,10 +4,23 @@
     @include('includes.errorbar')   
     @include('includes.topbar')
     
-    <div class=" border-top border-bottom p-2 mb-3 header-text">
-        <h1 class="text-lg-center">Sterilizer Load</h1>
-    </div>
-
+    <div class="header-text header-container">
+            <div class="headerBar">
+                <p class="header">Sterilizer Load</p>
+                <span id="closeNavBtn">
+                    <span class="line1"></span>
+                    <span class="line2"></span>
+                    <span class="line3"></span>
+                </span>
+            </div>
+            
+            <ul class="menulist">
+                <li><a class="menuitems" href="{{route('sterile.logs')}}">Sterilizer Logs</a></li>
+                <li><a class="menuitems" href="{{route('spore')}}">Spore Tests</a></li>		
+                <li><a class="menuitems" href="{{route('spore.logs')}}">Spore Logs</a></li>				
+            </ul>	
+        </div>
+    
     <div class="container  h-70 w-40 mb-3 container-margin">
 
             <form id="sterilizeForm" class="form-group ">
@@ -85,7 +98,7 @@
                 </p>
 
                 <div class="col d-flex justify-content-around">
-                    <button  class="col-md-5 log  btn btn-primary btn-lg " type='submit'>
+                    <button  class="offset-5 col-md-5 log  btn btn-primary btn-lg " type='submit'>
                         Print
                     </button>
 
@@ -95,11 +108,11 @@
                         View Logs
                     </button> --}}
 
-                    <a href="{{ route('sterile.logs') }}" class="
+                    {{-- <a href="{{ route('sterile.logs') }}" class="
                     btn btn-primary col-md-5 topRight-icon btn-lg">
                         <img class="tinyIcon" src="{{asset('icons/log_icon.png')}}" alt="">
                             View Logs
-                    </a>
+                    </a> --}}
 
                 </div>
 

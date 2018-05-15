@@ -18,7 +18,7 @@
         
         <ul class="menulist">
             <li><a class="menuitems" href="{{route('spore.logs')}}">Spore Logs</a></li>		
-            <li><a class="menuitems" href="{{route('sterile')}}">Sterilizer Load</a></li>				
+            <li><a class="menuitems" href="{{route('    ')}}">Sterilizer Load</a></li>				
             <li><a class="menuitems" href="{{route('sterile.logs')}}">Sterilizer Logs</a></li>
         </ul>	
     </div>

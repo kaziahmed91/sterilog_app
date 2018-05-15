@@ -67,22 +67,49 @@
                 </div>
 
                 <br>
-
                 <div class="row mx-2 mt-2 cleaners">
+                    @php $count = 1; $id=1;@endphp
                     @foreach( $cleaners as $key => $cleaner )
-                        <div class="cleaner col-md-3 span4 input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="{{ $cleaner->id}}">{{$cleaner->name}}</span>
+
+                        @if($count %12 == 1)
+                        <div class="scrollContainer" data-id="{{$id}}" style="{{ $id > 1 ? 'display:none;' : '' }}">
+                        @endif
+
+                            <div class="cleaner col-md-3 span4 input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="{{ $cleaner->id}}">{{$cleaner->name}}</span>
+                                </div>
+                            
+                                <select name="{{ $cleaner->name }}" class="cleanerUnits sterilizeNumberDropdown form-control ">
+                                    @for ($i = 0; $i <= 30; $i++)
+                                        <option value="{{$i}}">{{$i}}</option>
+                                    @endfor
+                                </select>
                             </div>
-                        
-                            <select name="{{ $cleaner->name }}" class="cleanerUnits sterilizeNumberDropdown form-control ">
-                                @for ($i = 0; $i <= 30; $i++)
-                                    <option value="{{$i}}">{{$i}}</option>
-                                @endfor
-                            </select>
-                        
-                        </div>
+
+                        @if($count%12 == 0)
+                            @php $id++; @endphp
+                            </div>
+                        @endif
+
+                        @php $count++; @endphp
+
                     @endforeach()
+
+                    @if($count%12 != 1)
+                        </div>
+                    @endif
+                    @if($id > 1)
+                    <br>
+                    <nav aria-label="...">
+                        <ul class="pagination pagination-md d-flex justify-content-center">
+                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">1</a></li>
+                            @for($i=2; $i<= $id; $i++)
+                                <li class="page-item"><a class="page-link" href="#">{{$i}}</a></li>
+                            @endfor()
+                        </ul>
+                    </nav>
+                    @endif
                 </div>
 
                 <div class="form-group mx-4">
@@ -104,15 +131,6 @@
 
                     </form> 
 
-                    {{-- <button  class="col-md-5  btn btn-primary btn-lg " type='submit'>
-                        View Logs
-                    </button> --}}
-
-                    {{-- <a href="{{ route('sterile.logs') }}" class="
-                    btn btn-primary col-md-5 topRight-icon btn-lg">
-                        <img class="tinyIcon" src="{{asset('icons/log_icon.png')}}" alt="">
-                            View Logs
-                    </a> --}}
 
                 </div>
 

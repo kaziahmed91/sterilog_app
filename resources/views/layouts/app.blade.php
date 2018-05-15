@@ -34,20 +34,7 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     
     @yield('script') 
-    <script>
-    $(document).ready(function() {
-        $('.loginDropdown').select2({
-                theme: "bootstrap",
-                placeholder: 'Select a Username',
-            });
 
-        $('.loginDropdown').on("change", function(e) { 
-            var user_id  = $('.loginDropdown option:selected').data('id');
-            $('#user_name').val(user_id)
-            console.log(user_id);
-        });
-    });
-    </script>
 </body>
 
 </html>

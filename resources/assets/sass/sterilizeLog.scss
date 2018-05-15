@@ -1,6 +1,11 @@
 .select2-container--bootstrap .select2-selection--single {
     height:36px;
 }
+.select2 select2-container select2-container--bootstrap {
+    // max-width: 150px !important;
+}
+// input[placeholder] { width: 100% !important; }
+
 
 
 .switchRow {
@@ -70,7 +75,6 @@ table tbody {
 
 .highlightSelectedRow {
     border: 2px solid #006494;
-    // width:99%;
 }
 
 svg {
@@ -91,3 +95,32 @@ svg {
         line-height: 1.1;
     }
 }
+
+
+.cleaners {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    // overflow-x: auto;
+    // overflow: auto;
+    // white-space: nowrap;
+    
+    .scrollContainer {
+        // flex: 0 0 auto;
+        display: flex;
+        overflow-x:auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        all: revert;
+
+    }
+  }
+  .scrollCard {
+    flex: 0 0 auto;
+  }
+
+  .cleanersParent {
+    display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  }

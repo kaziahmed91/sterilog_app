@@ -3,7 +3,8 @@
 @section('settings')
     <div class="col-sm-9 border ">
         <p class="settingsHeader border-bottom">Cleaner Settings</p>
-            
+        @include('includes.settingsError')
+
         <div id="accordion" class="my-4">
             
             <div class="card">
@@ -27,7 +28,7 @@
                                     <span class="col-sm-4"><strong>Date Added</strong>
                                         {{Carbon\Carbon::parse($eqpt['created_at'])->format('d-m-Y ')}}
                                     </span>
-                                    <span class='col-sm-4 font-weight-bold deleteCleaner' data-id="{{$eqpt['id']}}" style="color:red">Delete</span>
+                                    <span class='col-sm-4 pointer font-weight-bold deleteCleaner' data-id="{{$eqpt['id']}}" style="color:red">Delete</span>
                                 </li>
                             @endforeach
                         </ul>

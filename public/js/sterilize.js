@@ -29,31 +29,50 @@ $(document).ready(function() {
 	$('input[name="daterange"]').attr("placeholder","Select Range");
 	$('[data-disable-touch-keyboard]').attr('readonly', 'readonly');
 
+	initializeDropdown();
+
 	// Initialize dropdown for sterilization pages, allow additions to input field beyond 30
-	$('.sterilizeNumberDropdown').select2({
-		theme: "bootstrap",
-		placeholder: 'Add a Number',
-		tags: true,
-		createTag: function (params) {
-			return {
-			id: params.term,
-			text: params.term,
-			newOption: true
+	function initializeDropdown () {
+		$('.sterilizeNumberDropdown').select2({
+			theme: "bootstrap",
+			placeholder: 'Add a Number',
+			tags: true,
+			// dropdownAutoWidth: false,
+			// width:240,
+			// width: 'resolve',
+			createTag: function (params) {
+				return {
+				id: params.term,
+				text: params.term,
+				newOption: true
+				}
+			},
+			templateResult: function (data) {
+				var $result = $("<span></span>");
+	
+				$result.text(data.text);
+	
+				if (data.newOption) {
+				$result.append(" <em></em>");
+				}
+	
+				return $result;
 			}
-		},
-		templateResult: function (data) {
-			var $result = $("<span></span>");
+	
+		});
+	}
 
-			$result.text(data.text);
+	// $('.scrollContainer').hide()
+	// $('.scrollContainer[data-id="1"]').show();
 
-			if (data.newOption) {
-			$result.append(" <em></em>");
-			}
+	$('.page-item').click(function(){
+		var id = $(this).children().html();
+		$('.scrollContainer').slideUp();
+		$('.scrollContainer[data-id='+id+']').slideDown(function(){
+			initializeDropdown();
+		});
 
-			return $result;
-		}
-
-	});
+	})
 
 	$('.sterilizerSelect').select2({
 		theme: "bootstrap",

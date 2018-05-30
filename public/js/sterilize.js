@@ -313,6 +313,9 @@ $(document).ready(function() {
 			console.log(error.exception, error.message, error.line, error.file);
 		});
 	}
+	$("#additional_comments").on("focus", function(){
+		$('html, body').scrollTop($(document).height());/*window.scrollTo(x, y);*/
+	});
 
 	$('.updateComment').click(function(){
 		var comment = $('#addtl_comment').val();

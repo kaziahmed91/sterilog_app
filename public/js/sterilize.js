@@ -313,10 +313,13 @@ $(document).ready(function() {
 			console.log(error.exception, error.message, error.line, error.file);
 		});
 	}
-	$("#additional_comments").on("focus", function(){
-		
+
+
+
+	
+	$("#additional_comments, #addtl_comment").on("focus", function(){
 		$('.modal').addClass('height400');
-		$('html, body').scrollTop($(document).height());/*window.scrollTo(x, y);*/
+		$('.modal').animate({scrollTop: $(document).height() + $(window).height()});
 	}).on('blur',function(){
 		$('.modal').removeClass('height400');
 	});

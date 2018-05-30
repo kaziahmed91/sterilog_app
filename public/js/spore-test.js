@@ -218,7 +218,7 @@ $(document).ready(function(){
         // if (typeof(cicked_row) !== 'undefined')  {
 
             clicked_row.removeClass('highlightSelectedRow');
-        // }
+        // }f
 
     });
     $('#activeTestModal').on('hidden.bs.modal', function (e) {
@@ -235,4 +235,13 @@ $(document).ready(function(){
             clicked_row.removeClass('highlightSelectedRow');
         }
     });
+
+    $("#comments, #additional_comments_after").on("focus", function(){
+		$('.modal').addClass('height400');
+		$('.modal').animate({scrollTop: $(document).height() + $(window).height()});
+	}).on('blur',function(){
+		$('.modal').removeClass('height400');
+	});
+
+
 });

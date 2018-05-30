@@ -329,7 +329,9 @@ $(document).ready(function() {
 		console.log('yes')
 		$('body').addClass("margin350");
 		// .css('margin-bottom', '200px !important')
-		$('body').animate({scrollTop: $(document).height() + $(window).height()});
+		$('html, body').animate({scrollTop:$(document).height()}, 'slow');
+
+		// $('body').animate({scrollTop: $(document).height() + $(window).height()});
 	})
 	.on('blur',function(){
 		$('body').removeClass("margin350");

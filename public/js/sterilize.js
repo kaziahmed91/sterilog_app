@@ -314,8 +314,11 @@ $(document).ready(function() {
 		});
 	}
 	$("#additional_comments").on("focus", function(){
-		console.log('yes');
+		
+		$('.modal').addClass('height400');
 		$('html, body').scrollTop($(document).height());/*window.scrollTo(x, y);*/
+	}).on('blur',function(){
+		$('.modal').removeClass('height400');
 	});
 
 	$('.updateComment').click(function(){

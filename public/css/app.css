@@ -10806,6 +10806,10 @@ svg {
   height: 50px;
 }
 
+.height400 {
+  height: 400px !important;
+}
+
 .largeLogo {
   width: auto;
   height: auto;

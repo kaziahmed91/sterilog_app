@@ -324,6 +324,17 @@ $(document).ready(function() {
 		$('.modal').removeClass('height400');
 	});
 
+	// Sterilize comment box initally when adding 
+	$('#comment').on("focus", function(){
+		console.log('yes')
+		$('body').addClass("margin350");
+		// .css('margin-bottom', '200px !important')
+		$('body').animate({scrollTop: $(document).height() + $(window).height()});
+	})
+	.on('blur',function(){
+		$('body').removeClass("margin350");
+	});
+
 	$('.updateComment').click(function(){
 		var comment = $('#addtl_comment').val();
 

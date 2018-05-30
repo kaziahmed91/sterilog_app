@@ -20,8 +20,8 @@
                 <li><a class="menuitems" href="{{route('spore.logs')}}">Spore Logs</a></li>				
             </ul>	
         </div>
-    
-    <div class="container  h-70 w-40 mb-3 container-margin">
+        <br>
+    <div class="container  mb-3 container-margin">
 
             <form id="sterilizeForm" class="form-group ">
                 {{ csrf_field() }}

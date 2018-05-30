@@ -129,7 +129,7 @@
 
                             <div class="form-group row">
                                 <div class="offset-lg-4 col-lg-6 submit">
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="submit"  class="btn btn-success">Submit</button>
                                 </div>
                             </div>
 
@@ -141,14 +141,4 @@
         </div>
     </div>
 
-    @section('script')
-        <script type="text/javascript" >
-            // $(document).ready(function(){
-            //     $('.submit').click(function(e) {
-            //         e.preventDefault();
-            //     })
-            // })
-        
-        </script>
-    @endsection
 @endsection

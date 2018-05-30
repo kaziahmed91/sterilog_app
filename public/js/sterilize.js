@@ -314,6 +314,7 @@ $(document).ready(function() {
 		});
 	}
 	$("#additional_comments").on("focus", function(){
+		console.log('yes');
 		$('html, body').scrollTop($(document).height());/*window.scrollTo(x, y);*/
 	});
 

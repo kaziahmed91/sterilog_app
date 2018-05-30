@@ -49,7 +49,9 @@ Route::group(['prefix' => '', 'middleware' => ['auth', 'softUser'] ], function (
     Route::post('/deletePdf', 'SterilizeController@deletePdf');
     
 
-    Route::post('/updateCycle', 'SterilizeController@updateCycle');
+    Route::post('/sterilize/update', 'SterilizeController@updateCycle');
+    Route::post('/sterilize/update/comment', 'SterilizeController@updateComment');
+
     Route::post('/signSignature', 'SterilizeController@signSignature');
 
 

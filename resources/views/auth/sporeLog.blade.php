@@ -127,12 +127,12 @@
                                 <td class="lot">{{$test['lot_number']}}</td>
                                 <td class="control">
                                     @if( !is_null($test['removal_at']) )
-                                        {{$test['control_sterile'] == 0  && is_null($test['control_sterile'])  ? 'Unsterile' : 'Sterile'}}
+                                        {{$test['control_sterile'] == 0  && is_null($test['control_sterile'])  ? 'Fail' : 'Pass'}}
                                     @endif
                                 </td>   
                                 <td class="test">
                                     @if( !is_null($test['removal_at']) )
-                                        {{$test['test_sterile'] == 0 ? 'Unsterile' : 'Sterile'}}
+                                        {{$test['test_sterile'] == 0 ? 'Fail' : 'Pass'}}
                                     @endif    
                                 </td>
                                 <td class="entComm text "><span>{{$test['initial_comments']}}</span></td>

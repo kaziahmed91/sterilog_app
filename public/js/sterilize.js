@@ -243,6 +243,8 @@ $(document).ready(function() {
 	$('.confirmLogChanges').click(function(){
 		var $button = $(this)
 		var verified = $button.attr('data-verified');
+		$('#activeSterilizeModal').modal('hide')
+
 		logHandler(verified);
 	})
 
@@ -252,7 +254,7 @@ $(document).ready(function() {
 		var type5_sterile = $('#type_5_switch').is(':checked')  ? 1 : 0;
 		var batch = $('#batch').is(':checked')  ? 1 : 0;
 		var comments = $('#additional_comments').val();
-		console.log(comments)
+		
 		var changeData = {
 			"_token":  $('meta[name=csrf-token]').attr('content'),
 			'type1': type1_sterile,
@@ -265,7 +267,7 @@ $(document).ready(function() {
 			'comments': comments
 		}
 
-		$.post('/updateCycle', changeData, function(res) {
+		$.post('/sterilize/update', changeData, function(res) {
 			var response = res.response;
 			var log = res.log
 			if (response == 'success') {
@@ -311,6 +313,36 @@ $(document).ready(function() {
 			console.log(error.exception, error.message, error.line, error.file);
 		});
 	}
+
+	$('.updateComment').click(function(){
+		var comment = $('#addtl_comment').val();
+
+		var data = {
+			"_token":  $('meta[name=csrf-token]').attr('content'),
+			'cycle_id': cycle_id,
+			'comment': comment,
+		}
+		$('#activeSterilizeModal').modal('hide')
+
+		$.post('/sterilize/update/comment', data, function(res) {
+			var response = res.response;
+			if (response == 'success' ) {
+				// console.log('comment updated')
+				clicked_row.attr('data-removComment',  comment) 
+
+			} else if (response == 'error'){
+				$('.errorMsg').removeClass('hidden').find('ul').append('<li>'+message+'</li>')
+				
+			}
+		}).fail(function(err) {
+			var error = err.responseJSON;
+			$('.errorMsg').removeClass('hidden').find('ul').append('<li>'+error.message+'</li>')
+			console.log(error.exception, error.message, error.line, error.file);
+			window.scrollTo(0, 0);
+		});
+			
+		
+	})
 
 
 	function printData(printFiles, filepaths) {

@@ -43,17 +43,11 @@
 	<div class="centerContainer">
 		<button type="submit" id="login" class= "btn btn-primary btn-lg">Login</button>
 		<a href="{{route('settings.users')}}" class='forgottenPin'><u>Forgotten Pin? Reset here</u></a> <br><br>
-		{{-- <a href="{{ route('logout') }}" class="forgottenPin" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-			Logout
-		</a> --}}
+
 	</div>
 </div>
 
-{{-- 
-	<form id="logout-form" action="{{ route('logout') }}" method="POST"
-		style="display: none;">
-	{{ csrf_field() }}
-	</form> --}}
+
 
 
 	@section('script')  

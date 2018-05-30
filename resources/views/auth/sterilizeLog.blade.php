@@ -145,26 +145,26 @@
                             <td class="units_printed">{{$cycle['units_printed']}}</td>
                             <td class="type1">
                                 @if($cycle['type_1'] === 1)
-                                Sterile
+                                Pass
                                 @endif
                                 @if($cycle['type_1'] === 0)
-                                Unsterile
+                                Fail
                                 @endif
                             </td>
                             <td class="type4">
                                 @if($cycle['type_4'] === 1)
-                                Sterile
+                                Pass
                                 @endif
                                 @if($cycle['type_4'] === 0)
-                                Unsterile
+                                Fail
                                 @endif
                             </td>
                             <td class="type5">
                                 @if($cycle['type_5'] === 1)
-                                Sterile
+                                Pass    
                                 @endif
                                 @if($cycle['type_5'] === 0)
-                                Unsterile
+                                Fail
                                 @endif
                             </td>
                             <td class="params_verified">                     
@@ -173,6 +173,10 @@
                                 @endif
                                 @if($cycle['params_verified'] === 0)
                                 No
+                                @endif
+                                @if(is_null($cycle['params_verified']) && 
+                                    !is_null($cycle['completed_on']))
+                                Unchecked
                                 @endif
                                 
                             </td>
@@ -257,7 +261,7 @@
                 <a class="confirmLogChanges btn btn-success btn-lg" data-verified='1' href="#" role="button">Yes - parameters met</a>
                 <a class="confirmLogChanges btn btn-danger btn-lg" data-verified='0' href="#" role="button">No - parameters failed</a>
                 <br><br>
-                <button type="button" data-verified='null' class="addChanges btn btn-info btn-lg btn-block">No - not checked</button>
+                <button type="button"  data-verified='null' data-verified='null' class="addChanges btn btn-info btn-lg btn-block confirmLogChanges">No - not checked</button>
             </div>
 
         {{-- The following is displayed if user clickes an updated row --}}
@@ -327,7 +331,7 @@
 
             <div class="modal-footer completed">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class=" btn btn-primary" >Update</button>
+                <button type="button" class=" btn btn-primary updateComment" >Update</button>
             </div>
 
         </div>

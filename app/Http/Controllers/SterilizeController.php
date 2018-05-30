@@ -201,6 +201,26 @@ class SterilizeController extends Controller
         }
     }
 
+    public function updateComment ( Request $request, SterilizerService $sterilizerService)
+    {
+        $data = $request->all();
+        if (Gate::allows('write_access') )
+        {
+            try {
+                $update = $sterilizerService->updateComment($data);
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                error_log($e->getLine());
+                return response()->json(['response' => 'error', 'message' => 'Error updating sterilization cycle!', 'line' => $e->getLine() ],500);
+            }
+
+            return response()->json(['response' => 'success'], 200);
+
+        } else {
+            return response()->json(['response' => 'error',  'message' => 'Please log in to continue']);
+        }
+    }
+
     public function signSignature (Request $request)
     {
         $data = $request->all();

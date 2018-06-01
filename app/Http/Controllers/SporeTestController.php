@@ -84,8 +84,8 @@ class SporeTestController extends Controller
         if ($request->has('daterange') && !is_null($request->input('daterange') ))
         {
             $dates = explode(' ',$request->input('daterange') );
-            $from = Carbon::parse($dates[0]);
-            $to = Carbon::parse($dates[2]);
+            $from = Carbon::parse($dates[0])->hour(23)->minute('59');
+            $to = Carbon::parse($dates[2])->hour(23)->minute('59');
 
             $query->whereBetween('entry_at', [$from, $to] );
             $queries['daterange'] = $request->input('daterange');

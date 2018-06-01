@@ -21,13 +21,16 @@ class SterilizerService
 
     public function filter ($request)
     {
-        $query = CyclesModel::where('company_id',\Auth::user()->company_id )->whereNotNull('completed_on');
+        $query = CyclesModel::where('company_id',\Auth::user()->company_id );
         $queries = [];
         if ($request->has('daterange') && !is_null($request->input('daterange') ))
         {
             $dates = explode(' ',$request->input('daterange') );
-            $from = Carbon::parse($dates[0]);
-            $to = Carbon::parse($dates[2]);
+            $from = Carbon::parse($dates[0])->hour(23)->minute('59');
+            $to = Carbon::parse($dates[2])->hour(23)->minute('59');
+
+            error_log($from);
+            error_log($to);
 
             $query->whereBetween('created_at', [$from, $to] );
             $queries['daterange'] = $request->input('daterange');
